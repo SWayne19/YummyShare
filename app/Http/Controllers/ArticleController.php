@@ -13,7 +13,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::orderBy('title','asc')->get();
         return Inertia::render('Article/Index', [
             'articles' => $articles
         ]);
@@ -24,7 +24,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Article/Create');
+        return Inertia::render('Article/Form', [
+            'article' => null,
+        ]);
     }
 
     /**
@@ -39,7 +41,9 @@ class ArticleController extends Controller
         ]);
         Article::create($data);
 
-        return redirect()->route('articles.index');
+        return redirect()
+            ->route('articles.index')
+            ->with('success', 'Article created successfully.');
     }
 
     /**
@@ -55,10 +59,9 @@ class ArticleController extends Controller
      */
     public function edit(string $id)
     {
-        // dd('hit');
-        $article = Article::find($id);
-        return Inertia::render('Article/Edit', [
-            'article' => $article
+        $article = Article::findOrFail($id);
+        return Inertia::render('Article/Form', [
+            'article' => $article,
         ]);
     }
 
@@ -72,9 +75,11 @@ class ArticleController extends Controller
             'title' => 'required|max:255',
             'content' => 'required'
         ]);
-        Article::find($id)->update($data);
+        Article::findOrFail($id)->update($data);
 
-        return redirect()->route('articles.index');
+        return redirect()
+            ->route('articles.index')
+            ->with('success', 'Article updated successfully.');
     }
 
     /**
@@ -83,7 +88,8 @@ class ArticleController extends Controller
     public function destroy(string $id)
     {
         // dd('hit');
-        Article::find($id)->delete();
-        return back();
+        Article::findOrFail($id)->delete();
+
+        return back()->with('success', 'Article deleted successfully.');
     }
 }

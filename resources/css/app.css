@@ -12,7 +12,9 @@
 }
 
 @layer base {
+    html,
     body {
-        @apply bg-slate-950 text-slate-100 antialiased;
+        @apply h-full bg-slate-950 text-slate-100 antialiased;
+        overflow: hidden;
     }
 }
