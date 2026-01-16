@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseType;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -45,7 +44,6 @@ class CourseController extends Controller
      */
     public function create()
     {
-
         return Inertia::render('Courses/Form', [
             'courseTypes' => CourseType::where('status', true)->orderBy('name')->get(),
         ]);
@@ -56,13 +54,12 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(request()->all());
         $data = $request->validate([
             'course_type_id' => 'required|exists:course_types,id',
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255|unique:courses,code',
             'duration' => 'required|integer|min:1',
-            'status' => 'boolean'
+            // Removed 'status' from validation as per requested
         ]);
 
         Course::create($data);
@@ -82,7 +79,6 @@ class CourseController extends Controller
      */
     public function edit(string $id)
     {
-        // dd('hit');
         $course = Course::findOrFail($id);
         return Inertia::render('Courses/Form', [
             'course' => $course,
@@ -92,21 +88,36 @@ class CourseController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * Supports PATCH requests for status-only update from the index page,
+     * as well as PUT requests for editing full details.
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, string $id)
     {
-        // dd($request->all());
-        $data = $request->validate([
-            'course_type_id' => 'required|exists:course_types,id',
-            'name' => 'required|string|max:255',
-            'code' => 'required|string|max:50|unique:courses,code,' .  $course->id,
-            'duration' => 'required|integer|min:1',
-            'status' => 'boolean'
-        ]);
-        $course->update($data);
-        return redirect()
-            ->route('courses.index')
-            ->with('success', 'Course updated successfully.');
+        $course = Course::findOrFail($id);
+
+        if ($request->isMethod('patch')) {
+            // Status-only update (e.g. from toggle in index)
+            $data = $request->validate([
+                'status' => 'required|boolean'
+            ]);
+            $course->update([
+                'status' => $data['status']
+            ]);
+            return back()->with('success', 'Course status updated successfully.');
+        } else {
+            // Full update (PUT)
+            $data = $request->validate([
+                'course_type_id' => 'required|exists:course_types,id',
+                'name' => 'required|string|max:255',
+                'code' => 'required|string|max:50|unique:courses,code,' . $course->id,
+                'duration' => 'required|integer|min:1',
+            ]);
+            $course->update($data);
+            return redirect()
+                ->route('courses.index')
+                ->with('success', 'Course updated successfully.');
+        }
     }
 
     /**
@@ -114,7 +125,6 @@ class CourseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         Course::findOrFail($id)->delete();
         return back()->with('success', 'Course deleted successfully.');
     }

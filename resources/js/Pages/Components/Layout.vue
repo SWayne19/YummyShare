@@ -158,6 +158,42 @@ watch(
                             Masters
                         </div>
                         <Link
+                            @click="closeMobileMenu"
+                            :href="route('centers.index')"
+                            :class="[
+                                'flex items-center gap-3 rounded-xl px-4 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
+                                isActive('/centers')
+                                    ? 'bg-white/5 text-white ring-1 ring-white/10'
+                                    : 'text-slate-100 hover:bg-white/5',
+                            ]"
+                        >
+                            <span
+                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-green-500/20 text-green-100 ring-1 ring-white/10 mr-2"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.8"
+                                    stroke="currentColor"
+                                    class="h-5 w-5"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M3 21V7a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v14M3 21h18M6 21V9m4 12V13m4 8V9"
+                                    />
+                                </svg>
+                            </span>
+                            Centers
+                            <span
+                                v-if="isActive('/centers')"
+                                class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
+                            >
+                                Live
+                            </span>
+                        </Link>
+                        <Link
                             :href="route('courseTypes.index')"
                             :class="[
                                 navLinkBase + ' text-sm rounded-xl px-3 py-2',
@@ -308,7 +344,9 @@ watch(
                                     ]"
                                     href="/"
                                 >
-                                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2">
+                                    <span
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2"
+                                    >
                                         <!-- dashboard icon -->
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -340,15 +378,54 @@ watch(
                                 </div>
                                 <Link
                                     @click="closeMobileMenu"
+                                    :href="route('centers.index')"
+                                    :class="[
+                                        'flex items-center gap-3 rounded-xl px-4 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
+                                        isActive('/centers')
+                                            ? 'bg-white/5 text-white ring-1 ring-white/10'
+                                            : 'text-slate-100 hover:bg-white/5',
+                                    ]"
+                                >
+                                    <span
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-green-500/20 text-green-100 ring-1 ring-white/10 mr-2"
+                                    >
+                                        <!-- Centers icon (building) -->
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.8"
+                                            stroke="currentColor"
+                                            class="h-5 w-5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M3 21V7a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v14M3 21h18M6 21V9m4 12V13m4 8V9"
+                                            />
+                                        </svg>
+                                    </span>
+                                    Centers
+                                    <span
+                                        v-if="isActive('/centers')"
+                                        class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
+                                    >
+                                        Live
+                                    </span>
+                                </Link>
+                                <Link
+                                    @click="closeMobileMenu"
                                     :href="route('courseTypes.index')"
                                     :class="[
-                                        'flex items-center gap-3 rounded-xl px-3 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
+                                        'flex items-center gap-3 rounded-xl px-4 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
                                         isActive('/courseTypes')
                                             ? 'bg-white/5 text-white ring-1 ring-white/10'
                                             : 'text-slate-100 hover:bg-white/5',
                                     ]"
                                 >
-                                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2">
+                                    <span
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2"
+                                    >
                                         <!-- Course Types icon (list icon) -->
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -377,13 +454,15 @@ watch(
                                     @click="closeMobileMenu"
                                     :href="route('courses.index')"
                                     :class="[
-                                        'flex items-center gap-3 rounded-xl px-3 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
+                                        'flex items-center gap-3 rounded-xl px-4 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
                                         isActive('/courses')
                                             ? 'bg-white/5 text-white ring-1 ring-white/10'
                                             : 'text-slate-100 hover:bg-white/5',
                                     ]"
                                 >
-                                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/20 text-sky-100 ring-1 ring-white/10 mr-2">
+                                    <span
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/20 text-sky-100 ring-1 ring-white/10 mr-2"
+                                    >
                                         <!-- Course icon (academic cap icon) -->
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -463,66 +542,74 @@ watch(
                     </div>
                 </header>
 
-                <!-- Global flash messages -->
+                <!-- Global flash messages - compact, modernized style -->
                 <transition name="fade">
                     <div
                         v-if="showFlash && (flash.success || flash.error)"
-                        class="pointer-events-none fixed inset-x-0 top-4 z-40 flex justify-center px-4 sm:justify-end sm:px-8"
+                        class="pointer-events-none fixed inset-x-0 top-6 z-50 flex justify-center px-2 sm:justify-end sm:px-6"
                     >
                         <div
-                            class="pointer-events-auto flex max-w-sm items-start gap-3 rounded-2xl border px-4 py-3 text-sm shadow-lg backdrop-blur-xl"
+                            class="pointer-events-auto flex w-full max-w-sm items-start gap-4 rounded-xl border px-4 py-3 text-sm font-semibold shadow-xl backdrop-blur-lg"
                             :class="
                                 flash.success
-                                    ? 'border-emerald-400/40 bg-emerald-500/15 text-emerald-100 shadow-emerald-500/30'
-                                    : 'border-red-400/40 bg-red-500/15 text-red-100 shadow-red-500/30'
+                                    ? 'border-emerald-400/70 bg-emerald-600/90 text-white shadow-emerald-700/30'
+                                    : 'border-rose-400/70 bg-rose-600/90 text-white shadow-rose-700/25'
                             "
+                            style="box-shadow: 0 8px 28px 0 rgba(23,41,85,0.15), 0 2px 8px 0 #0001;"
                         >
-                            <div class="mt-0.5">
+                            <div class="mt-0.5 flex-shrink-0">
                                 <svg
                                     v-if="flash.success"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5"
+                                    class="h-6 w-6"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
                                 >
+                                    <circle cx="12" cy="12" r="10" class="text-emerald-200/60" fill="currentColor" fill-opacity="0.12"/>
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
-                                        d="M9 12.75 11.25 15 15 9.75M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0Z"
+                                        d="M9 12.75 11.25 15 15 9.75"
+                                        class="text-emerald-100"
+                                        stroke="currentColor"
                                     />
                                 </svg>
                                 <svg
                                     v-else
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5"
+                                    class="h-6 w-6"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
                                 >
+                                    <circle cx="12" cy="12" r="10" class="text-rose-200/60" fill="currentColor" fill-opacity="0.12"/>
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
-                                        d="M12 8v4m0 4h.01M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0z"
+                                        d="M12 8v4m0 4h.01"
+                                        class="text-rose-100"
+                                        stroke="currentColor"
                                     />
                                 </svg>
                             </div>
-                            <div class="flex-1">
-                                <p class="font-semibold">
+                            <div class="flex-1 ml-1">
+                                <p class="font-semibold text-base tracking-wide mb-0.5">
                                     {{ flash.success ? "Success" : "Error" }}
                                 </p>
-                                <p class="mt-0.5 text-xs text-white/90">
+                                <p class="text-[15px] text-white/95 leading-snug">
                                     {{ flash.success || flash.error }}
                                 </p>
                             </div>
                             <button
                                 type="button"
-                                class="ml-1 rounded-full p-1 text-xs text-white/70 transition hover:bg-white/10"
+                                class="ml-2 rounded-full p-1.5 text-lg text-white/80 transition hover:bg-white/10 hover:text-white/95 focus:outline-none"
                                 @click="showFlash = false"
+                                title="Close notification"
                             >
-                                ✕
+                                <span aria-hidden="true">✕</span>
                             </button>
                         </div>
                     </div>
@@ -541,8 +628,8 @@ watch(
                     <div class="flex justify-center">
                         <p class="text-xs text-slate-400">
                             &copy;
-                            {{ new Date().getFullYear() }} StudyFlow.
-                            Organized learning for everyone.
+                            {{ new Date().getFullYear() }} StudyFlow. Organized
+                            learning for everyone.
                         </p>
                     </div>
                 </footer>

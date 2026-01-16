@@ -9,20 +9,20 @@
                         <p
                             class="text-xs uppercase tracking-[0.3em] text-indigo-100"
                         >
-                            {{ isEdit ? "Edit Course" : "Create Course" }}
+                            {{ isEdit ? "Edit Center" : "Create Center" }}
                         </p>
                         <h1 class="text-3xl font-bold text-white sm:text-4xl">
                             {{
                                 isEdit
-                                    ? "Update your course"
-                                    : "Share your new course with the world"
+                                    ? "Update your center"
+                                    : "Share your new center with the world"
                             }}
                         </h1>
                         <p class="text-slate-200">
                             {{
                                 isEdit
-                                    ? "Make changes to this course for use in your student management system."
-                                    : "Create and add a new course to manage in your student management system."
+                                    ? "Make changes to this center for use in your student management system."
+                                    : "Create and add a new center to manage in your student management system."
                             }}
                         </p>
                     </div>
@@ -30,8 +30,8 @@
                     <div class="flex items-center gap-2">
                         <Link
                             prefetch="mount"
-                            :href="route('courses.index')"
-                            class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-950/10 transition hover:border-white/25 hover:bg-white/10"
+                            :href="route('centers.index')"
+                            class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-950/10 transition hover:border-white/25 hover:bg-white/10 cursor-pointer"
                         >
                             <span aria-hidden="true">←</span>
                             Back
@@ -43,65 +43,7 @@
                     @submit.prevent="submit"
                     class="rounded-3xl bg-white/5 shadow-2xl ring-1 ring-white/10 ring-inset backdrop-blur-lg transition-all duration-500 hover:shadow-indigo-700/25 hover:ring-indigo-500/30 p-8 flex flex-col gap-6"
                 >
-                    <!-- Course Type -->
-                    <div>
-                        <label
-                            for="course_type_id"
-                            class="block mb-2 text-sm font-medium text-indigo-100"
-                        >
-                            Course Type
-                        </label>
-                        <select
-                            id="course_type_id"
-                            v-model="form.course_type_id"
-                            class="w-full rounded-lg border border-white/15 bg-slate-800/60 p-3 text-white placeholder-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 outline-none"
-                            :aria-invalid="
-                                form.errors.course_type_id ? 'true' : 'false'
-                            "
-                            :class="
-                                form.errors.course_type_id
-                                    ? 'border-red-500 focus:border-red-400 focus:ring-red-200'
-                                    : ''
-                            "
-                        >
-                            <option disabled value="">
-                                Select a course type…
-                            </option>
-                            <option
-                                v-for="courseType in courseTypes"
-                                :value="courseType.id"
-                                :key="courseType.id"
-                            >
-                                {{ courseType.name }}
-                            </option>
-                        </select>
-                        <transition name="fade">
-                            <div
-                                v-if="form.errors.course_type_id"
-                                class="mt-2 flex items-center gap-2 rounded-lg bg-red-500/15 px-3 py-2 text-sm text-red-400 border border-red-400/40 animate-shake"
-                                style="backdrop-filter: blur(2px)"
-                            >
-                                <svg
-                                    class="w-4 h-4 text-red-400"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M12 8v4m0 4h.01M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0z"
-                                    />
-                                </svg>
-                                <span class="font-medium">{{
-                                    form.errors.course_type_id
-                                }}</span>
-                            </div>
-                        </transition>
-                    </div>
-
-                    <!-- Course Name -->
+                    <!-- Center Name -->
                     <div>
                         <label
                             for="name"
@@ -114,7 +56,7 @@
                             id="name"
                             v-model="form.name"
                             class="w-full rounded-lg border border-white/15 bg-slate-800/60 p-3 text-white placeholder-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 outline-none"
-                            placeholder="Course name (e.g., Introduction to Biology)"
+                            placeholder="Center name (e.g., Downtown Center)"
                             autocomplete="off"
                             :aria-invalid="form.errors.name ? 'true' : 'false'"
                             :class="
@@ -149,7 +91,7 @@
                         </transition>
                     </div>
 
-                    <!-- Course Code -->
+                    <!-- Center Code -->
                     <div>
                         <label
                             for="code"
@@ -162,7 +104,7 @@
                             id="code"
                             v-model="form.code"
                             class="w-full rounded-lg border border-white/15 bg-slate-800/60 p-3 text-white placeholder-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 outline-none"
-                            placeholder="Course code (e.g., BIO101)"
+                            placeholder="Center code (e.g., CEN123)"
                             autocomplete="off"
                             :aria-invalid="form.errors.code ? 'true' : 'false'"
                             :class="
@@ -197,38 +139,33 @@
                         </transition>
                     </div>
 
-                    <!-- Duration (in months) -->
+                    <!-- Center Address -->
                     <div>
                         <label
-                            for="duration"
+                            for="address"
                             class="block mb-2 text-sm font-medium text-indigo-100"
                         >
-                            Duration
-                            <span class="text-xs text-slate-300 font-normal"
-                                >(months)</span
-                            >
+                            Address
                         </label>
                         <input
-                            type="number"
-                            id="duration"
-                            v-model="form.duration"
+                            type="text"
+                            id="address"
+                            v-model="form.address"
                             class="w-full rounded-lg border border-white/15 bg-slate-800/60 p-3 text-white placeholder-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 outline-none"
-                            placeholder="Duration in months (e.g., 6)"
+                            placeholder="Center address (optional)"
                             autocomplete="off"
-                            min="1"
-                            step="1"
                             :aria-invalid="
-                                form.errors.duration ? 'true' : 'false'
+                                form.errors.address ? 'true' : 'false'
                             "
                             :class="
-                                form.errors.duration
+                                form.errors.address
                                     ? 'border-red-500 focus:border-red-400 focus:ring-red-200'
                                     : ''
                             "
                         />
                         <transition name="fade">
                             <div
-                                v-if="form.errors.duration"
+                                v-if="form.errors.address"
                                 class="mt-2 flex items-center gap-2 rounded-lg bg-red-500/15 px-3 py-2 text-sm text-red-400 border border-red-400/40 animate-shake"
                                 style="backdrop-filter: blur(2px)"
                             >
@@ -246,7 +183,55 @@
                                     />
                                 </svg>
                                 <span class="font-medium">{{
-                                    form.errors.duration
+                                    form.errors.address
+                                }}</span>
+                            </div>
+                        </transition>
+                    </div>
+
+                    <!-- Center Phone -->
+                    <div>
+                        <label
+                            for="phone"
+                            class="block mb-2 text-sm font-medium text-indigo-100"
+                        >
+                            Phone
+                        </label>
+                        <input
+                            type="number"
+                            id="phone"
+                            v-model="form.phone"
+                            class="w-full rounded-lg border border-white/15 bg-slate-800/60 p-3 text-white placeholder-slate-400 transition focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 outline-none"
+                            placeholder="Contact phone (optional)"
+                            autocomplete="off"
+                            :aria-invalid="form.errors.phone ? 'true' : 'false'"
+                            :class="
+                                form.errors.phone
+                                    ? 'border-red-500 focus:border-red-400 focus:ring-red-200'
+                                    : ''
+                            "
+                        />
+                        <transition name="fade">
+                            <div
+                                v-if="form.errors.phone"
+                                class="mt-2 flex items-center gap-2 rounded-lg bg-red-500/15 px-3 py-2 text-sm text-red-400 border border-red-400/40 animate-shake"
+                                style="backdrop-filter: blur(2px)"
+                            >
+                                <svg
+                                    class="w-4 h-4 text-red-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 8v4m0 4h.01M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0z"
+                                    />
+                                </svg>
+                                <span class="font-medium">{{
+                                    form.errors.phone
                                 }}</span>
                             </div>
                         </transition>
@@ -262,8 +247,8 @@
                                 form.processing
                                     ? "Saving…"
                                     : isEdit
-                                    ? "Update Course"
-                                    : "Create Course"
+                                    ? "Update Center"
+                                    : "Create Center"
                             }}
                         </button>
                     </div>
@@ -273,36 +258,34 @@
     </Layout>
 </template>
 <script setup>
-import { useForm, Link } from "@inertiajs/vue3";
-import Layout from "../Components/Layout.vue";
 import { computed } from "vue";
+import Layout from "../Components/Layout.vue";
+import { useForm, Link } from "@inertiajs/vue3";
+import { route } from "ziggy-js";
 
 const props = defineProps({
-    course: {
+    center: {
         type: Object,
         default: null,
     },
-    courseTypes: {
-        type: Array,
-    },
 });
 
-const isEdit = computed(() => Boolean(props.course?.id));
+const isEdit = computed(() => Boolean(props.center?.id));
 
 const form = useForm({
-    course_type_id: props.course?.course_type_id ?? "",
-    name: props.course?.name ?? "",
-    code: props.course?.code ?? "",
-    duration: props.course?.duration ?? "",
+    name: props.center?.name ?? "",
+    code: props.center?.code ?? "",
+    address: props.center?.address ?? "",
+    phone: props.center?.phone ?? "",
 });
 
 function submit() {
     if (isEdit.value) {
-        form.put(route("courses.update", props.course.id));
+        form.put(route("centers.update", props.center?.id));
         return;
     }
 
-    form.post(route("courses.store"));
+    form.post(route("centers.store"));
 }
 </script>
 <style lang=""></style>

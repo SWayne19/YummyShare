@@ -29,7 +29,7 @@ class CourseTypeController extends Controller
             }
         }
 
-        $courseTypes = $query->orderBy('name', 'asc')->get(); 
+        $courseTypes = $query->orderBy('name', 'asc')->get();
         $totalCourseTypes = CourseType::count();
 
         return Inertia::render('CourseTypes/Index', [
@@ -54,10 +54,8 @@ class CourseTypeController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(request()->all());
         $data = $request->validate([
             'name' => 'required',
-            'status' => 'required'
         ]);
 
         CourseType::create($data);
@@ -79,7 +77,6 @@ class CourseTypeController extends Controller
      */
     public function edit(string $id)
     {
-        // dd('hit');
         $courseType = CourseType::findOrFail($id);
         return Inertia::render('CourseTypes/Form', [
             'courseType' => $courseType
@@ -88,19 +85,33 @@ class CourseTypeController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
+     * Supports PATCH requests for status-only update from the index page,
+     * as well as PUT requests for editing full details.
      */
     public function update(Request $request, string $id)
     {
-        // dd(request()->all());
-        $data = $request->validate([
-            'name' => 'required',
-            'status' => 'required'
-        ]);
-        CourseType::findOrFail($id)->update($data);
+        // dd($request->all());
+        $courseType = CourseType::findOrFail($id);
 
-        return redirect()
-            ->route('courseTypes.index')
-            ->with('success', 'Course Type updated successfully.');
+        if ($request->isMethod('patch')) {
+            $data = $request->validate([
+                'status' => 'required|boolean'
+            ]);
+            $courseType->update([
+                'status' => $data['status']
+            ]);
+            return back()->with('success', 'Course Type status updated successfully.');
+        } else {
+            $data = $request->validate([
+                'name' => 'required',
+            ]);
+            $courseType->update($data);
+
+            return redirect()
+                ->route('courseTypes.index')
+                ->with('success', 'Course Type updated successfully.');
+        }
     }
 
     /**
@@ -108,7 +119,6 @@ class CourseTypeController extends Controller
      */
     public function destroy(string $id)
     {
-        // dd('hit');
         CourseType::findOrFail($id)->delete();
         return back()->with('success', 'Course Type deleted successfully.');
     }
