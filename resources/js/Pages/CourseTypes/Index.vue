@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <section class="relative">
-            <div class="mx-auto max-w-6xl px-6 py-6">
+            <div class="mx-auto max-w-6xl py-6">
                 <!-- Title row -->
                 <div class="mb-4 text-center">
                     <p

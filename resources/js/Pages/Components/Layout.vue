@@ -98,11 +98,11 @@ watch(
                     <Link href="/" class="flex items-center gap-3">
                         <div>
                             <p
-                                class="text-xs uppercase tracking-[0.28em] text-indigo-100/90 font-semibold"
+                                class="text-lg uppercase tracking-[0.28em] text-indigo-100/90 font-bold"
                             >
                                 StudyFlow
                             </p>
-                            <p class="text-base font-semibold text-white">
+                            <p class="text-sm font-semibold text-white">
                                 Student Hub
                             </p>
                         </div>
@@ -223,7 +223,7 @@ watch(
                                     />
                                 </svg>
                             </span>
-                            Course
+                            Courses
                             <span
                                 v-if="isActive('/courses')"
                                 class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
@@ -258,7 +258,7 @@ watch(
                                 <div class="flex items-center gap-3">
                                     <div>
                                         <p
-                                            class="text-xs uppercase tracking-[0.22em] text-indigo-100/90 font-semibold"
+                                            class="text-lg uppercase tracking-[0.22em] text-indigo-100/90 font-bold"
                                         >
                                             StudyFlow
                                         </p>
@@ -308,7 +308,24 @@ watch(
                                     ]"
                                     href="/"
                                 >
-                                    <span>Dashboard</span>
+                                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2">
+                                        <!-- dashboard icon -->
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.8"
+                                            stroke="currentColor"
+                                            class="h-5 w-5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5"
+                                            />
+                                        </svg>
+                                    </span>
+                                    Dashboard
                                     <span
                                         v-if="isActive('/', { exact: true })"
                                         class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
@@ -331,7 +348,24 @@ watch(
                                             : 'text-slate-100 hover:bg-white/5',
                                     ]"
                                 >
-                                    <span>Course Types</span>
+                                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2">
+                                        <!-- Course Types icon (list icon) -->
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.8"
+                                            stroke="currentColor"
+                                            class="h-5 w-5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M4 6h16M4 12h16M4 18h7"
+                                            />
+                                        </svg>
+                                    </span>
+                                    Course Types
                                     <span
                                         v-if="isActive('/courseTypes')"
                                         class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
@@ -349,7 +383,24 @@ watch(
                                             : 'text-slate-100 hover:bg-white/5',
                                     ]"
                                 >
-                                    <span>Course</span>
+                                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/20 text-sky-100 ring-1 ring-white/10 mr-2">
+                                        <!-- Course icon (academic cap icon) -->
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.8"
+                                            stroke="currentColor"
+                                            class="h-5 w-5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M12 14.25L19.5 9.75L12 5.25L4.5 9.75L12 14.25ZM12 14.25V19.5M18 10.5V16.5C18 16.9142 17.8788 17.2652 17.6778 17.5071C17.4767 17.749 17.2167 17.875 16.9433 17.8953C14.8635 18.0554 13.1365 18.0554 11.0567 17.8953C10.7833 17.875 10.5233 17.749 10.3222 17.5071C10.1212 17.2652 10 16.9142 10 16.5V10.5"
+                                            />
+                                        </svg>
+                                    </span>
+                                    Courses
                                     <span
                                         v-if="isActive('/courses')"
                                         class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
@@ -486,6 +537,15 @@ watch(
                         <slot />
                     </div>
                 </main>
+                <footer class="px-4 pb-4 pt-2 sm:px-6 lg:px-10">
+                    <div class="flex justify-center">
+                        <p class="text-xs text-slate-400">
+                            &copy;
+                            {{ new Date().getFullYear() }} StudyFlow.
+                            Organized learning for everyone.
+                        </p>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>

@@ -1,10 +1,11 @@
 <template>
     <Layout>
         <section class="relative">
-            <div class="mx-auto max-w-6xl px-6 py-6">
+            <div class="mx-auto max-w-6xl py-6">
+                <!-- Title row -->
                 <div class="mb-4 text-center">
                     <p
-                        class="text-xs uppercase tracking-[0.3em] text-indigo-100"
+                        class="text-xs uppercase tracking-[0.3em] text-indigo-100 sm:mr-4"
                     >
                         Courses
                     </p>
@@ -12,7 +13,10 @@
                         Browse and manage the courses in the system.
                     </p>
                 </div>
-                <div class="mb-4 flex flex-wrap items-center justify-center gap-3">
+                <!-- Filters row, centered -->
+                <div
+                    class="mb-4 flex flex-wrap items-center justify-center gap-3"
+                >
                     <div class="relative w-full sm:w-72">
                         <div
                             class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-300/80"
@@ -99,7 +103,7 @@
                             </span>
                             of
                             <span class="text-indigo-200">
-                                {{ totalCourses }}
+                                {{ courses.length }}
                             </span>
                         </p>
                         <button

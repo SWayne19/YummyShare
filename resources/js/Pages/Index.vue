@@ -36,18 +36,19 @@
                         <div
                             class="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/20 text-indigo-200 ring-1 ring-indigo-400/40"
                         >
+                            <!-- Matching sidebar icon for Course Types (list icon) -->
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
                                 fill="none"
-                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                                 stroke-width="1.8"
+                                stroke="currentColor"
                                 class="h-6 w-6"
                             >
                                 <path
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    d="M4.5 6.75h15m-12 4.5h9m-7.5 4.5h6"
+                                    d="M4 6h16M4 12h16M4 18h7"
                                 />
                             </svg>
                         </div>
@@ -74,18 +75,19 @@
                         <div
                             class="flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/20 text-indigo-200 ring-1 ring-indigo-400/40"
                         >
+                            <!-- Matching sidebar icon for Courses (academic cap icon) -->
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
                                 fill="none"
-                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                                 stroke-width="1.8"
+                                stroke="currentColor"
                                 class="h-6 w-6"
                             >
                                 <path
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    d="M4.5 6.75h15m-12 4.5h9m-7.5 4.5h6"
+                                    d="M12 14.25L19.5 9.75L12 5.25L4.5 9.75L12 14.25ZM12 14.25V19.5M18 10.5V16.5C18 16.9142 17.8788 17.2652 17.6778 17.5071C17.4767 17.749 17.2167 17.875 16.9433 17.8953C14.8635 18.0554 13.1365 18.0554 11.0567 17.8953C10.7833 17.875 10.5233 17.749 10.3222 17.5071C10.1212 17.2652 10 16.9142 10 16.5V10.5"
                                 />
                             </svg>
                         </div>

@@ -1,7 +1,7 @@
 <template lang="">
     <Layout>
         <section class="relative">
-            <div class="mx-auto max-w-3xl px-6 py-14">
+            <div class="mx-auto max-w-3xl py-6">
                 <div
                     class="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
                 >
