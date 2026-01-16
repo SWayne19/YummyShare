@@ -90,31 +90,31 @@ watch(
         <div class="relative z-10 flex h-full">
             <!-- Desktop sidebar -->
             <aside
-                class="hidden w-[290px] shrink-0 flex-col border-r border-white/5 bg-slate-950/70 p-6 backdrop-blur-2xl lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:overflow-hidden"
+                class="hidden w-[290px] shrink-0 flex-col border-r border-white/5 bg-slate-950/70 p-0 backdrop-blur-2xl lg:fixed lg:inset-y-0 lg:left-0 lg:flex lg:overflow-hidden"
             >
-                <Link href="/" class="flex items-center gap-3">
-                    <div
-                        class="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-indigo-500 via-sky-400 to-indigo-700 text-lg font-black text-white shadow-xl shadow-indigo-500/30 ring-4 ring-white/10"
-                    >
-                        SF
-                    </div>
-                    <div>
-                        <p
-                            class="text-xs uppercase tracking-[0.28em] text-indigo-100/90 font-semibold"
-                        >
-                            StudyFlow
-                        </p>
-                        <p class="text-base font-semibold text-white">
-                            Student Hub
-                        </p>
-                    </div>
-                </Link>
-
-                <div class="mt-8 space-y-6">
-                    <div class="space-y-1.5 text-xs uppercase text-slate-400">
-                        Overview
-                    </div>
+                <div
+                    class="logo-bar-sidebar flex flex-col p-6 border-b border-white/10 h-[72px] justify-center"
+                >
+                    <Link href="/" class="flex items-center gap-3">
+                        <div>
+                            <p
+                                class="text-xs uppercase tracking-[0.28em] text-indigo-100/90 font-semibold"
+                            >
+                                StudyFlow
+                            </p>
+                            <p class="text-base font-semibold text-white">
+                                Student Hub
+                            </p>
+                        </div>
+                    </Link>
+                </div>
+                <div class="mt-8 space-y-6 px-6">
                     <nav class="space-y-2 text-sm font-semibold">
+                        <div
+                            class="space-y-4.5 text-sm uppercase text-slate-400 font-bold"
+                        >
+                            Overview
+                        </div>
                         <Link
                             :class="[
                                 navLinkBase,
@@ -126,7 +126,7 @@ watch(
                             prefetch="mount"
                         >
                             <span
-                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-100 ring-1 ring-white/10"
+                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2"
                             >
                                 <!-- dashboard icon -->
                                 <svg
@@ -146,45 +146,21 @@ watch(
                             </span>
                             Dashboard
                             <span
+                                v-if="isActive('/', { exact: true })"
                                 class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
                             >
                                 Live
                             </span>
                         </Link>
-                        <Link
-                            :href="route('articles.index')"
-                            :class="[
-                                navLinkBase,
-                                isActive('/articles')
-                                    ? navLinkActive
-                                    : navLinkIdle,
-                            ]"
-                            prefetch="mount"
+                        <div
+                            class="space-y-4.5 text-sm uppercase text-slate-400 font-bold"
                         >
-                            <span
-                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/5"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.8"
-                                    stroke="currentColor"
-                                    class="h-5 w-5"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M15 19.128a9.004 9.004 0 0 0 6-8.508m-6 8.508a9.003 9.003 0 0 1-6 0m6 0a5.25 5.25 0 1 0-6 0m0 0a9.004 9.004 0 0 1-6-8.508m12 0a9.004 9.004 0 0 0-6-8.508m0 0a9.004 9.004 0 0 0-6 8.508"
-                                    />
-                                </svg>
-                            </span>
-                            Articles
-                        </Link>
+                            Masters
+                        </div>
                         <Link
                             :href="route('courseTypes.index')"
                             :class="[
-                                navLinkBase,
+                                navLinkBase + ' text-sm rounded-xl px-3 py-2',
                                 isActive('/courseTypes')
                                     ? navLinkActive
                                     : navLinkIdle,
@@ -192,8 +168,9 @@ watch(
                             prefetch="mount"
                         >
                             <span
-                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/5"
+                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-500/20 text-purple-100 ring-1 ring-white/10 mr-2"
                             >
+                                <!-- Course Types icon (list icon) -->
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -205,19 +182,32 @@ watch(
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        d="M4.5 6.75h15m-15 0a1.5 1.5 0 0 0-1.5 1.5v9a1.5 1.5 0 0 0 1.5 1.5h15a1.5 1.5 0 0 0 1.5-1.5v-9a1.5 1.5 0 0 0-1.5-1.5m-15 0V5.25A2.25 2.25 0 0 1 6.75 3h10.5A2.25 2.25 0 0 1 19.5 5.25V6.75m-12 6h9"
+                                        d="M4 6h16M4 12h16M4 18h7"
                                     />
                                 </svg>
                             </span>
                             Course Types
+                            <span
+                                v-if="isActive('/courseTypes')"
+                                class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
+                            >
+                                Live
+                            </span>
                         </Link>
                         <Link
-                            :class="[navLinkBase, navLinkIdle]"
-                            href="#reports"
+                            :href="route('courses.index')"
+                            :class="[
+                                navLinkBase + ' text-sm rounded-xl px-3 py-2',
+                                isActive('/courses')
+                                    ? navLinkActive
+                                    : navLinkIdle,
+                            ]"
+                            prefetch="mount"
                         >
                             <span
-                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/5"
+                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/20 text-sky-100 ring-1 ring-white/10 mr-2"
                             >
+                                <!-- Course icon (academic cap icon) -->
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -229,35 +219,17 @@ watch(
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
-                                        d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875zm6-9.75C9 2.754 9.504 2.25 10.125 2.25h2.25c.621 0 1.125.504 1.125 1.125v16.5c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 0 1 9 19.875zm6 6.75c0-.621.504-1.125 1.125-1.125h2.25C18.996 9 19.5 9.504 19.5 10.125v9.75A1.125 1.125 0 0 1 18.375 21h-2.25A1.125 1.125 0 0 1 15 19.875z"
+                                        d="M12 14.25L19.5 9.75L12 5.25L4.5 9.75L12 14.25ZM12 14.25V19.5M18 10.5V16.5C18 16.9142 17.8788 17.2652 17.6778 17.5071C17.4767 17.749 17.2167 17.875 16.9433 17.8953C14.8635 18.0554 13.1365 18.0554 11.0567 17.8953C10.7833 17.875 10.5233 17.749 10.3222 17.5071C10.1212 17.2652 10 16.9142 10 16.5V10.5"
                                     />
                                 </svg>
                             </span>
-                            Reports
-                        </Link>
-                        <Link
-                            :class="[navLinkBase, navLinkIdle]"
-                            href="#support"
-                        >
+                            Course
                             <span
-                                class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/5"
+                                v-if="isActive('/courses')"
+                                class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.8"
-                                    stroke="currentColor"
-                                    class="h-5 w-5"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M12 18.75a.75.75 0 0 1-.75-.75v-2.25a.75.75 0 0 1 .428-.677 3.75 3.75 0 1 0-4.928-3.536.75.75 0 0 1-1.496 0 5.25 5.25 0 1 1 7.178 4.859v1.604a.75.75 0 0 1-.432.685l-3 1.5a.75.75 0 1 1-.684-1.342l2.684-1.342V18a.75.75 0 0 1-.75.75z"
-                                    />
-                                </svg>
+                                Live
                             </span>
-                            Help center
                         </Link>
                     </nav>
                 </div>
@@ -267,7 +239,7 @@ watch(
             <transition name="fade">
                 <div
                     v-if="mobileMenuOpen"
-                    class="fixed inset-0 z-50 flex lg:hidden"
+                    class="fixed inset-0 z-50 lg:hidden flex"
                     aria-modal="true"
                     role="dialog"
                 >
@@ -277,108 +249,122 @@ watch(
                         aria-hidden="true"
                     ></div>
                     <div
-                        class="relative ml-auto flex h-full w-4/5 max-w-sm flex-col gap-6 border-l border-white/10 bg-slate-950/95 p-6 shadow-2xl ring-1 ring-white/10"
+                        class="mobile-sidebar relative flex h-full w-[290px] flex-col bg-slate-950/95 border-r border-white/5 shadow-2xl ring-1 ring-white/10 p-0"
                     >
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-indigo-500 via-sky-400 to-indigo-700 text-sm font-black text-white shadow-lg shadow-indigo-500/30 ring-2 ring-white/10"
-                                >
-                                    SF
+                        <div
+                            class="logo-bar-sidebar flex flex-col p-6 border-b border-white/10 h-[72px] justify-center"
+                        >
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div>
+                                        <p
+                                            class="text-xs uppercase tracking-[0.22em] text-indigo-100/90 font-semibold"
+                                        >
+                                            StudyFlow
+                                        </p>
+                                        <p class="text-sm text-white/90">
+                                            Student dashboard
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p
-                                        class="text-xs uppercase tracking-[0.22em] text-indigo-100/90 font-semibold"
+                                <button
+                                    @click="closeMobileMenu"
+                                    class="rounded-full p-2 text-slate-200 transition hover:bg-white/10"
+                                    type="button"
+                                    aria-label="Close menu"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                        stroke="currentColor"
+                                        class="h-6 w-6"
                                     >
-                                        StudyFlow
-                                    </p>
-                                    <p class="text-sm text-white/90">
-                                        Student dashboard
-                                    </p>
-                                </div>
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6 18 18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
                             </div>
-                            <button
-                                @click="closeMobileMenu"
-                                class="rounded-full p-2 text-slate-200 transition hover:bg-white/10"
-                                type="button"
-                                aria-label="Close menu"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="2"
-                                    stroke="currentColor"
-                                    class="h-6 w-6"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M6 18 18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
                         </div>
 
-                        <nav class="space-y-2 text-sm font-semibold">
-                            <Link
-                                @click="closeMobileMenu"
-                                :class="[
-                                    'flex items-center gap-3 rounded-xl px-4 py-3 transition ring-1 ring-white/10',
-                                    isActive('/', { exact: true })
-                                        ? 'bg-white/5 text-white'
-                                        : 'text-slate-100 hover:bg-white/5',
-                                ]"
-                                href="/"
-                            >
-                                Dashboard
-                            </Link>
-                            <Link
-                                @click="closeMobileMenu"
-                                :class="[
-                                    'flex items-center gap-3 rounded-xl px-4 py-3 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
-                                    isActive('/articles')
-                                        ? 'bg-white/5 text-white ring-1 ring-white/10'
-                                        : 'text-slate-100 hover:bg-white/5',
-                                ]"
-                                href="/articles"
-                            >
-                                Articles
-                            </Link>
-                            <Link
-                                @click="closeMobileMenu"
-                                class="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-100 transition hover:bg-white/5 focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400"
-                                href="#courses"
-                            >
-                                Courses
-                            </Link>
-                            <Link
-                                @click="closeMobileMenu"
-                                class="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-100 transition hover:bg-white/5 focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400"
-                                href="#reports"
-                            >
-                                Reports
-                            </Link>
-                            <a
-                                @click="closeMobileMenu"
-                                class="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-100 transition hover:bg-white/5 focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400"
-                                href="#support"
-                            >
-                                Support
-                            </a>
-                        </nav>
-
-                        <div class="mt-auto space-y-3">
-                            <button
-                                class="flex w-full items-center justify-center rounded-xl bg-linear-to-r from-indigo-500 to-sky-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition hover:-translate-y-0.5"
-                                type="button"
-                            >
-                                Add new student
-                            </button>
-                            <p class="text-xs text-slate-400">
-                                &copy; {{ new Date().getFullYear() }} StudyFlow.
-                                Organized learning for everyone.
-                            </p>
+                        <div class="flex-1 flex flex-col pt-8 px-6 space-y-6">
+                            <nav class="space-y-2 text-sm font-semibold">
+                                <div
+                                    class="space-y-4.5 text-sm uppercase text-slate-400 font-bold"
+                                >
+                                    Overview
+                                </div>
+                                <Link
+                                    @click="closeMobileMenu"
+                                    :class="[
+                                        'flex items-center gap-3 rounded-xl px-4 py-3 transition ring-1 ring-white/10',
+                                        isActive('/', { exact: true })
+                                            ? 'bg-white/5 text-white'
+                                            : 'text-slate-100 hover:bg-white/5',
+                                    ]"
+                                    href="/"
+                                >
+                                    <span>Dashboard</span>
+                                    <span
+                                        v-if="isActive('/', { exact: true })"
+                                        class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
+                                    >
+                                        Live
+                                    </span>
+                                </Link>
+                                <div
+                                    class="space-y-4.5 text-sm uppercase text-slate-400 font-bold"
+                                >
+                                    Masters
+                                </div>
+                                <Link
+                                    @click="closeMobileMenu"
+                                    :href="route('courseTypes.index')"
+                                    :class="[
+                                        'flex items-center gap-3 rounded-xl px-3 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
+                                        isActive('/courseTypes')
+                                            ? 'bg-white/5 text-white ring-1 ring-white/10'
+                                            : 'text-slate-100 hover:bg-white/5',
+                                    ]"
+                                >
+                                    <span>Course Types</span>
+                                    <span
+                                        v-if="isActive('/courseTypes')"
+                                        class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
+                                    >
+                                        Live
+                                    </span>
+                                </Link>
+                                <Link
+                                    @click="closeMobileMenu"
+                                    :href="route('courses.index')"
+                                    :class="[
+                                        'flex items-center gap-3 rounded-xl px-3 py-2 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-indigo-400',
+                                        isActive('/courses')
+                                            ? 'bg-white/5 text-white ring-1 ring-white/10'
+                                            : 'text-slate-100 hover:bg-white/5',
+                                    ]"
+                                >
+                                    <span>Course</span>
+                                    <span
+                                        v-if="isActive('/courses')"
+                                        class="ml-auto rounded-full bg-emerald-500/20 px-2.5 py-1 text-[11px] font-semibold text-emerald-100"
+                                    >
+                                        Live
+                                    </span>
+                                </Link>
+                            </nav>
+                            <div class="mt-auto space-y-3">
+                                <p class="text-xs text-slate-400">
+                                    &copy;
+                                    {{ new Date().getFullYear() }} StudyFlow.
+                                    Organized learning for everyone.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -386,9 +372,9 @@ watch(
 
             <div class="flex h-full flex-1 flex-col min-w-0 lg:ml-[290px]">
                 <header
-                    class="sticky top-0 z-30 border-b border-white/5 bg-slate-950/80 px-4 py-4 backdrop-blur-2xl sm:px-6 lg:px-10"
+                    class="sticky top-0 z-30 bg-slate-950/80 px-4 py-0 backdrop-blur-2xl sm:px-6 lg:px-10 border-b border-white/10 h-[72px] flex items-center"
                 >
-                    <div class="flex items-center gap-3 lg:hidden">
+                    <div class="flex items-center gap-3 lg:hidden h-full">
                         <button
                             @click="toggleMobileMenu"
                             class="rounded-2xl border border-white/15 bg-white/5 p-2 text-white shadow-md shadow-indigo-500/20 transition hover:border-indigo-400/40 hover:bg-indigo-500/10"

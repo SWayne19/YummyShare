@@ -10,4 +10,9 @@ class CourseType extends Model
         'name',
         'status'
     ];
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }
