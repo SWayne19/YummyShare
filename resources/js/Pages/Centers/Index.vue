@@ -189,7 +189,7 @@
                     </button>
                     <button
                         @click="confirmStatusChange"
-                        :disabled="form.processing"
+                        :disabled="processingStatus"
                         class="inline-flex items-center rounded-full bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-800 disabled:opacity-70 disabled:pointer-events-none cursor-pointer"
                     >
                         Change
@@ -246,7 +246,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { router, Link } from '@inertiajs/vue3';
+import { router, Link, useForm } from '@inertiajs/vue3';
 import Layout from "../Components/Layout.vue";
 
 const props = defineProps({
@@ -270,10 +270,12 @@ const statusModalOpen = ref(false);
 const deleteModalOpen = ref(false);
 const selectedCenterId = ref(null);
 const selectedCenterName = ref('');
-const form = ref({
+
+// Fix: Proper use of useForm for status change and patch submission
+const form = useForm({
     status: null,
-    processing: false,
 });
+const processingStatus = ref(false);
 
 // For delete modal
 const deleteCenterId = ref(null);
@@ -308,35 +310,14 @@ function resetFilters() {
 function openStatusModal(id, name, prevStatus) {
     selectedCenterId.value = id;
     selectedCenterName.value = name;
-    form.value.status = prevStatus ? 0 : 1;
+    form.status = prevStatus ? 0 : 1;
     statusModalOpen.value = true;
 }
 function closeStatusModal() {
     statusModalOpen.value = false;
     selectedCenterId.value = null;
     selectedCenterName.value = '';
-    form.value.status = null;
-}
-
-// Confirm status change
-async function confirmStatusChange() {
-    if (!selectedCenterId.value) return;
-    form.value.processing = true;
-    try {
-        await router.put(route('centers.status', { center: selectedCenterId.value }), {
-            status: form.value.status
-        }, {
-            onSuccess: () => {
-                // Could refetch
-                closeStatusModal();
-            },
-            onFinish: () => {
-                form.value.processing = false;
-            }
-        });
-    } catch (e) {
-        form.value.processing = false;
-    }
+    form.reset();
 }
 
 // Delete Modal
@@ -361,6 +342,19 @@ async function confirmDelete() {
             }
         });
     } catch (e) {}
+}
+
+// Fix: Use the useForm PATCH correctly to submit the status change
+function confirmStatusChange() {
+    if (processingStatus.value) return;
+    processingStatus.value = true;
+    form.patch(route("centers.update", selectedCenterId.value), {
+        onFinish: () => {
+            closeStatusModal();
+            processingStatus.value = false;
+        },
+        preserveScroll: true,
+    });
 }
 </script>
 <style></style>

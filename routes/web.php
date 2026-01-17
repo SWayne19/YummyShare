@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return inertia('Index', [
         'totalCourseTypes' => CourseType::count(),
-        'courses' => Course::count(),
+        'totalCourses' => Course::count(),
+        'totalCenters' => Center::count()
     ]);
 });
 
