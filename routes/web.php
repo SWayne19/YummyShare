@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 // home
 Route::get('/', function () {
-    return inertia('Index', [
-        'totalCourseTypes' => CourseType::count(),
-        'totalCourses' => Course::count(),
-        'totalCenters' => Center::count()
-    ]);
+    return inertia('Index');
 });
 
 // article
