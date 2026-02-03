@@ -2,16 +2,14 @@
 import { Link } from "@inertiajs/vue3";
 import Layout from "./Components/Layout.vue";
 
-// Mock Data for Design Visualization
-// (Replace these with real props from your Laravel controller later)
-const categories = [
-    { name: 'Breakfast', icon: '🍳', color: 'bg-yellow-100 text-yellow-700' },
-    { name: 'Vegan', icon: '🥗', color: 'bg-green-100 text-green-700' },
-    { name: 'Desserts', icon: '🍰', color: 'bg-pink-100 text-pink-700' },
-    { name: 'Seafood', icon: '🍤', color: 'bg-blue-100 text-blue-700' },
-    { name: 'Fast Food', icon: '🍔', color: 'bg-orange-100 text-orange-700' },
-];
+const props = defineProps({
+    categories: {
+        type: Array,
+        required: true
+    }
+});
 
+// Mock data - replace with props later
 const featuredRecipes = [
     {
         id: 1,
@@ -19,6 +17,8 @@ const featuredRecipes = [
         chef: "Chef Mario",
         time: "25 min",
         calories: "450 kcal",
+        rating: 4.8,
+        reviews: 120,
         image: "https://images.unsplash.com/photo-1467003909585-2f8a7270028d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         tag: "Popular"
     },
@@ -28,6 +28,8 @@ const featuredRecipes = [
         chef: "Sarah Jenkins",
         time: "10 min",
         calories: "320 kcal",
+        rating: 4.9,
+        reviews: 85,
         image: "https://images.unsplash.com/photo-1588137372308-15f75323ca8d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         tag: "Healthy"
     },
@@ -37,6 +39,8 @@ const featuredRecipes = [
         chef: "FitKitchen",
         time: "15 min",
         calories: "280 kcal",
+        rating: 4.7,
+        reviews: 42,
         image: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         tag: "Breakfast"
     },
@@ -45,11 +49,11 @@ const featuredRecipes = [
 
 <template>
     <Layout>
-        <div class="space-y-16 pb-12">
+        <div class="space-y-20 pb-12">
 
             <section class="relative z-10 mx-auto max-w-4xl text-center pt-8 animate-fade-in-up">
                 <div
-                    class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/50 px-4 py-1.5 backdrop-blur-sm mb-6 transition-transform hover:scale-105 cursor-default">
+                    class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/50 px-4 py-1.5 backdrop-blur-sm mb-6 transition-transform hover:scale-105 cursor-default shadow-sm">
                     <span class="relative flex h-2 w-2">
                         <span
                             class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
@@ -70,7 +74,7 @@ const featuredRecipes = [
                 </p>
 
                 <div
-                    class="mx-auto mt-8 flex max-w-lg items-center gap-2 rounded-2xl bg-white p-2 shadow-2xl shadow-orange-500/10 ring-1 ring-gray-100 transition-all focus-within:ring-2 focus-within:ring-orange-500/50">
+                    class="mx-auto mt-10 flex max-w-lg items-center gap-2 rounded-2xl bg-white p-2 shadow-2xl shadow-orange-500/10 ring-1 ring-gray-100 transition-all focus-within:ring-2 focus-within:ring-orange-500/50">
                     <div class="pl-4 text-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd"
@@ -79,97 +83,116 @@ const featuredRecipes = [
                         </svg>
                     </div>
                     <input type="text" placeholder="What do you want to cook?"
-                        class="w-full border-none bg-transparent text-gray-900 placeholder-gray-400 focus:ring-0 text-base">
+                        class="w-full border-none bg-transparent text-gray-900 placeholder-gray-400 focus:ring-0 text-base outline-none h-12">
                     <button
-                        class="rounded-xl bg-gray-900 px-6 py-2.5 font-bold text-white transition-colors hover:bg-gray-800">
+                        class="rounded-xl bg-gray-900 px-8 py-3 font-bold text-white transition-colors hover:bg-gray-800">
                         Search
                     </button>
                 </div>
             </section>
 
             <section class="animate-fade-in-up animation-delay-200">
-                <div class="flex items-center justify-between mb-6 px-2">
-                    <h2 class="text-xl font-bold text-gray-900">Explore Categories</h2>
-                    <a href="#" class="text-sm font-semibold text-orange-600 hover:text-orange-700">View all &rarr;</a>
+                <div class="flex items-center justify-between mb-8 px-2">
+                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Popular Categories</h2>
+                    <Link :href="route('categories.index')"
+                        class="group flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700">
+                        View all
+                        <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+                    </Link>
                 </div>
 
-                <div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-                    <button v-for="cat in categories" :key="cat.name"
-                        class="group flex flex-shrink-0 items-center gap-3 rounded-2xl border border-white bg-white/60 px-5 py-3 shadow-sm backdrop-blur-sm transition-all hover:bg-white hover:shadow-md hover:scale-105">
-                        <span :class="['flex h-8 w-8 items-center justify-center rounded-full text-lg', cat.color]">
-                            {{ cat.icon }}
-                        </span>
-                        <span class="font-bold text-gray-700 group-hover:text-gray-900">{{ cat.name }}</span>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6">
+                    <button
+                        v-for="cat in categories"
+                        :key="cat.id || cat.name"
+                        class="group flex flex-col items-center gap-2 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-orange-200 hover:shadow-lg hover:shadow-orange-100/50">
+                        <span class="font-bold text-gray-700 group-hover:text-gray-900 text-base text-center">{{ cat.name }}</span>
                     </button>
                 </div>
             </section>
 
             <section class="animate-fade-in-up animation-delay-400">
-                <div class="flex items-center justify-between mb-6 px-2">
-                    <h2 class="text-xl font-bold text-gray-900">Fresh from the Kitchen</h2>
+                <div class="flex items-center justify-between mb-8 px-2">
+                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Fresh from the Kitchen</h2>
                 </div>
 
                 <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     <div v-for="recipe in featuredRecipes" :key="recipe.id"
-                        class="group relative flex flex-col overflow-hidden rounded-3xl bg-white shadow-lg shadow-gray-200/50 ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-200/50">
-                        <div class="relative h-64 w-full overflow-hidden">
+                        class="group relative flex flex-col overflow-hidden rounded-[2rem] bg-white transition-all duration-500 hover:shadow-2xl hover:shadow-gray-200/50">
+
+                        <div class="relative h-72 w-full overflow-hidden">
                             <div class="absolute inset-0 bg-gray-200 animate-pulse" v-if="!recipe.image"></div>
                             <img :src="recipe.image" :alt="recipe.title"
-                                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                class="h-full w-full object-cover transition-transform duration-200 group-hover:scale-110">
+
                             <div
-                                class="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gray-900 backdrop-blur-md">
-                                {{ recipe.tag }}
+                                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60">
                             </div>
+
+                            <div class="absolute top-4 left-4">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gray-900 backdrop-blur-md shadow-sm">
+                                    {{ recipe.tag }}
+                                </span>
+                            </div>
+
                             <button
-                                class="absolute top-4 right-4 rounded-full bg-white/90 p-2 text-gray-400 backdrop-blur-md transition-colors hover:text-red-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white transition-all hover:bg-white hover:text-red-500 hover:scale-110">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-5 h-5">
                                     <path
-                                        d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.16-1.1c-1.077-1.092-2.843-2.893-4.335-5.274C2.528 7.575 2.5 5.524 4.095 3.93c1.332-1.333 3.376-1.483 4.904-.491l.001.001.002.001.002.001h.001l.001.001A.76.76 0 0 1 9.652 4l.001.001.001.001h.001l.001.001.001.001.001.001A4.542 4.542 0 0 1 11 3.5c1.528-.992 3.572-.842 4.905.492 1.594 1.594 1.625 3.645-.04 6.596-1.492 2.38-3.258 4.182-4.336 5.274a20.763 20.763 0 0 1-1.159 1.1l-.019.01-.005.003h-.001Z" />
+                                        d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3.25 7.502 3.25c1.548 0 3.09.661 4.113 1.772A5.253 5.253 0 0 1 16.036 3.25c2.788 0 5.253 2.072 5.253 5.003 0 3.923-2.438 7.11-4.739 9.253a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
                                 </svg>
                             </button>
-                        </div>
 
-                        <div class="flex flex-1 flex-col p-6">
-                            <div class="flex items-center gap-2 text-xs font-medium text-gray-500 mb-3">
-                                <span class="flex items-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        class="w-4 h-4 text-orange-500">
+                            <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end text-white">
+                                <div class="flex items-center gap-1 text-sm font-medium">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-4 h-4 text-orange-400">
                                         <path fill-rule="evenodd"
-                                            d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
+                                            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    {{ recipe.rating }} <span class="text-white/70 text-xs">({{ recipe.reviews
+                                    }})</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-1 text-xs font-medium bg-black/30 px-2 py-1 rounded-lg backdrop-blur-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="w-3.5 h-3.5">
+                                        <path fill-rule="evenodd"
+                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z"
                                             clip-rule="evenodd" />
                                     </svg>
                                     {{ recipe.time }}
-                                </span>
-                                <span>•</span>
-                                <span class="flex items-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        class="w-4 h-4 text-orange-500">
-                                        <path fill-rule="evenodd"
-                                            d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Zm-.25 10.45v-3.3l2.25 1.65-2.25 1.65Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    {{ recipe.calories }}
-                                </span>
+                                </div>
                             </div>
+                        </div>
 
-                            <h3 class="text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors">
+                        <div class="flex flex-1 flex-col p-6">
+                            <h3
+                                class="text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2 mb-2">
                                 {{ recipe.title }}
                             </h3>
 
-                            <div class="mt-auto pt-6 flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <div class="h-8 w-8 rounded-full bg-gray-100 ring-2 ring-white">
-                                        <svg class="h-full w-full text-gray-300" fill="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path
-                                                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                        </svg>
+                            <div class="flex items-center gap-3 text-sm text-gray-500 mb-6">
+                                <span class="flex items-center gap-1">
+                                    <span class="text-orange-500">🔥</span> {{ recipe.calories }}
+                                </span>
+                                <span class="h-1 w-1 rounded-full bg-gray-300"></span>
+                                <span>Easy</span>
+                            </div>
+
+                            <div class="mt-auto flex items-center justify-between border-t border-gray-100 pt-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="h-8 w-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-xs ring-2 ring-white shadow-sm">
+                                        {{ recipe.chef.charAt(0) }}
                                     </div>
-                                    <span class="text-sm font-semibold text-gray-700">{{ recipe.chef }}</span>
+                                    <span class="text-sm font-bold text-gray-700">{{ recipe.chef }}</span>
                                 </div>
                                 <button
-                                    class="rounded-lg p-2 text-gray-400 hover:bg-orange-50 hover:text-orange-600 transition-colors">
+                                    class="rounded-full bg-gray-50 p-2 text-gray-400 transition-all hover:bg-orange-50 hover:text-orange-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -184,21 +207,21 @@ const featuredRecipes = [
 
             <section class="animate-fade-in-up animation-delay-600">
                 <div
-                    class="relative overflow-hidden rounded-3xl bg-gray-900 px-6 py-12 text-center shadow-2xl sm:px-12">
+                    class="relative overflow-hidden rounded-[2.5rem] bg-gray-900 px-6 py-16 text-center shadow-2xl sm:px-12">
                     <div class="absolute top-0 left-0 -mt-10 h-64 w-64 rounded-full bg-orange-500/20 blur-[100px]">
                     </div>
                     <div class="absolute bottom-0 right-0 -mb-10 h-64 w-64 rounded-full bg-red-500/20 blur-[100px]">
                     </div>
 
                     <div class="relative z-10">
-                        <h2 class="text-3xl font-black tracking-tight text-white sm:text-4xl">
+                        <h2 class="text-3xl font-black tracking-tight text-white sm:text-5xl">
                             Got a Secret Recipe?
                         </h2>
-                        <p class="mx-auto mt-4 max-w-xl text-lg text-gray-300">
+                        <p class="mx-auto mt-6 max-w-xl text-lg text-gray-300 leading-relaxed">
                             Share your culinary masterpiece with thousands of foodies. Build your profile and inspire
                             others to cook.
                         </p>
-                        <div class="mt-8 flex justify-center gap-4">
+                        <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                             <Link href="/recipes/create"
                                 class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-orange-500/30 transition-transform hover:scale-105">
                                 Start Sharing
@@ -217,7 +240,6 @@ const featuredRecipes = [
 </template>
 
 <style scoped>
-/* Keyframes for Entry Animation */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -233,10 +255,8 @@ const featuredRecipes = [
 .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
-    /* Start invisible */
 }
 
-/* Staggered Delays */
 .animation-delay-200 {
     animation-delay: 0.2s;
 }
@@ -247,15 +267,5 @@ const featuredRecipes = [
 
 .animation-delay-600 {
     animation-delay: 0.6s;
-}
-
-/* Utility to hide scrollbar but keep functionality */
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
 }
 </style>
