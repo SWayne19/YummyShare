@@ -53,14 +53,6 @@ const closeMenu = () => (mobileMenuOpen.value = false);
 
             <div class="flex items-center gap-8">
                 <Link href="/" class="flex items-center gap-2.5 group">
-                    <div
-                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-orange-500 to-red-500 text-white shadow-lg shadow-orange-200 transition-transform group-hover:scale-105 group-hover:rotate-3 ios-glass-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
-                            <path fill-rule="evenodd"
-                                d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.177 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm-2.125.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
                     <span class="text-xl font-extrabold tracking-tight text-gray-900 glassy-text">
                         Yummy<span class="text-orange-600">Share</span>
                     </span>
