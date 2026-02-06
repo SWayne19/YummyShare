@@ -16,4 +16,12 @@
     body {
         @apply  bg-slate-950 text-slate-100 antialiased
     }
+
+    .glass-input {
+        @apply w-full rounded-2xl border border-white/40 bg-white/50 p-4 text-gray-900 placeholder-gray-400 shadow-sm backdrop-blur-xl transition-all;
+    }
+
+    .glass-input:focus {
+        @apply bg-white/80 ring-2 ring-orange-500/50 border-orange-500 outline-none;
+    }
 }

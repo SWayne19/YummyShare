@@ -12,7 +12,7 @@ defineProps({
     <Head title="Categories" />
 
     <Layout>
-        <div class="space-y-16 pb-12">
+        <div class="space-y-16 pb-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             <section class="relative z-10 mx-auto max-w-4xl text-center pt-8">
                 <div
@@ -36,7 +36,7 @@ defineProps({
                 </p>
             </section>
 
-            <section class="max-w-7xl mx-auto px-4">
+            <section class="mx-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
                     <Link v-for="category in categories" :key="category.id" :href="`/?category=${category.slug}`"

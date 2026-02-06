@@ -14,11 +14,16 @@ const stats = [
     <Head title="About Us" />
     <Layout>
         <!-- Adjust padding to match Navbar left/right spaces (px-6 lg:px-12 as an example) -->
-        <div class="space-y-24 pb-12">
+        <div class="space-y-24 pb-12 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
             <section class="relative z-10 max-w-4xl mx-auto text-center pt-8 animate-fade-in-up">
                 <div
-                    class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/50 px-4 py-1.5 backdrop-blur-sm mb-6 shadow-sm">
+                    class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/50 px-4 py-1.5 backdrop-blur-sm mb-6 shadow-sm cursor-default transition-transform hover:scale-105">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                    </span>
                     <span class="text-xs font-bold uppercase tracking-wider text-orange-700">Our Story</span>
                 </div>
 

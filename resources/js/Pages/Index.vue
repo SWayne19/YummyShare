@@ -2,13 +2,6 @@
 import { Link } from "@inertiajs/vue3";
 import Layout from "./Components/Layout.vue";
 
-const props = defineProps({
-    categories: {
-        type: Array,
-        required: true
-    }
-});
-
 // Mock data - replace with props later
 const featuredRecipes = [
     {
@@ -51,67 +44,69 @@ const featuredRecipes = [
     <Layout>
         <div class="space-y-20 pb-12">
 
-            <section class="relative z-10 mx-auto max-w-4xl text-center pt-8 animate-fade-in-up">
-                <div
-                    class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/50 px-4 py-1.5 backdrop-blur-sm mb-6 transition-transform hover:scale-105 cursor-default shadow-sm">
-                    <span class="relative flex h-2 w-2">
-                        <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                    </span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-orange-700">#1 Food Community</span>
+            <section
+                class="relative h-screen min-h-[600px] w-full -mt-24 flex items-center justify-center overflow-hidden">
+
+                <div class="absolute inset-0 z-0">
+                    <video autoplay loop muted playsinline class="h-full w-full object-cover"
+                        poster="/videos/poster.jpg">
+                        <source src="/videos/home.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <div class="absolute inset-0 bg-black/40"></div>
                 </div>
 
-                <h1 class="text-5xl font-black tracking-tight text-gray-900 sm:text-7xl leading-tight">
-                    Cook Like a Pro,<br />
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Share with
-                        the World.</span>
-                </h1>
-
-                <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-600 leading-relaxed">
-                    Discover thousands of tested recipes from home cooks. Join the community, save your favorites, and
-                    start your culinary journey today.
-                </p>
-
-                <div
-                    class="mx-auto mt-10 flex max-w-lg items-center gap-2 rounded-2xl bg-white p-2 shadow-2xl shadow-orange-500/10 ring-1 ring-gray-100 transition-all focus-within:ring-2 focus-within:ring-orange-500/50">
-                    <div class="pl-4 text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                            <path fill-rule="evenodd"
-                                d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                <div class="relative z-10 mx-auto max-w-4xl text-center px-4 pt-20 animate-fade-in-up">
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 backdrop-blur-md mb-6 shadow-sm transition-transform hover:scale-105 cursor-default">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                        </span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-white">#1 Food Community</span>
                     </div>
-                    <input type="text" placeholder="What do you want to cook?"
-                        class="w-full border-none bg-transparent text-gray-900 placeholder-gray-400 focus:ring-0 text-base outline-none h-12">
-                    <button
-                        class="rounded-xl bg-gray-900 px-8 py-3 font-bold text-white transition-colors hover:bg-gray-800">
-                        Search
-                    </button>
+
+                    <h1 class="text-5xl font-black tracking-tight text-white sm:text-7xl leading-tight drop-shadow-lg">
+                        Cook Like a Pro,<br />
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-red-600">Share
+                            with the World.</span>
+                    </h1>
+
+                    <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-200 leading-relaxed drop-shadow-md">
+                        Discover thousands of tested recipes from home cooks. Join the community, save your favorites,
+                        and start your culinary journey today.
+                    </p>
+
+                    <div
+                        class="mx-auto mt-10 flex max-w-lg items-center gap-2 rounded-2xl bg-white/90 p-2 shadow-2xl backdrop-blur-sm transition-all focus-within:ring-4 focus-within:ring-orange-500/30">
+                        <div class="pl-4 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="w-5 h-5">
+                                <path fill-rule="evenodd"
+                                    d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <input type="text" placeholder="What do you want to cook?"
+                            class="w-full border-none bg-transparent text-gray-900 placeholder-gray-500 focus:ring-0 text-base outline-none h-12">
+                        <button
+                            class="rounded-xl bg-gray-900 px-8 py-3 font-bold text-white transition-all hover:bg-orange-600 hover:shadow-lg">
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="white" class="w-8 h-8 opacity-75">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
                 </div>
             </section>
 
-            <section class="animate-fade-in-up animation-delay-200">
-                <div class="flex items-center justify-between mb-8 px-2">
-                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Popular Categories</h2>
-                    <Link :href="route('categories.index')"
-                        class="group flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700">
-                        View all
-                        <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
-                    </Link>
-                </div>
-
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6">
-                    <button
-                        v-for="cat in categories"
-                        :key="cat.id || cat.name"
-                        class="group flex flex-col items-center gap-2 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-all hover:border-orange-200 hover:shadow-lg hover:shadow-orange-100/50">
-                        <span class="font-bold text-gray-700 group-hover:text-gray-900 text-base text-center">{{ cat.name }}</span>
-                    </button>
-                </div>
-            </section>
-
-            <section class="animate-fade-in-up animation-delay-400">
+            <section class="animate-fade-in-up animation-delay-400 mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between mb-8 px-2">
                     <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Fresh from the Kitchen</h2>
                 </div>
@@ -154,7 +149,7 @@ const featuredRecipes = [
                                             clip-rule="evenodd" />
                                     </svg>
                                     {{ recipe.rating }} <span class="text-white/70 text-xs">({{ recipe.reviews
-                                    }})</span>
+                                        }})</span>
                                 </div>
                                 <div
                                     class="flex items-center gap-1 text-xs font-medium bg-black/30 px-2 py-1 rounded-lg backdrop-blur-sm">
@@ -205,7 +200,7 @@ const featuredRecipes = [
                 </div>
             </section>
 
-            <section class="animate-fade-in-up animation-delay-600">
+            <section class="animate-fade-in-up animation-delay-600 mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
                 <div
                     class="relative overflow-hidden rounded-[2.5rem] bg-gray-900 px-6 py-16 text-center shadow-2xl sm:px-12">
                     <div class="absolute top-0 left-0 -mt-10 h-64 w-64 rounded-full bg-orange-500/20 blur-[100px]">
@@ -226,10 +221,10 @@ const featuredRecipes = [
                                 class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-orange-500/30 transition-transform hover:scale-105">
                                 Start Sharing
                             </Link>
-                            <button
+                            <Link href="/aboutus"
                                 class="inline-flex items-center justify-center rounded-xl bg-white/10 px-8 py-4 text-base font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/20">
                                 Learn More
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

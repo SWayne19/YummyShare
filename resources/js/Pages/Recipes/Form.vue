@@ -1,18 +1,375 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { useForm, Head } from "@inertiajs/vue3";
+import { ref } from "vue";
 import Layout from "../Components/Layout.vue";
+// -- Fix 1: Correct combobox import for usage below
+import GlassCombobox from "../Components/GlassCombobox.vue"; // Make sure this matches the actual filename
 
+defineProps({
+    categories: {
+        type: Array,
+        default: () => [],
+    }
+});
 
+const difficultyOptions = [
+    { id: 'easy', name: 'Easy' },
+    { id: 'medium', name: 'Medium' },
+    { id: 'hard', name: 'Hard' }
+];
+
+const form = useForm({
+    title: '',
+    author_name: '',
+    category_id: '',
+    cook_time: '',
+    servings: '',
+    difficulty: 'easy',
+    instructions: '',
+    ingredients: [{ name: '', quantity: '', unit: '' }],
+    images: []
+});
+
+// --- WIZARD CONFIG ---
+const currentStep = ref(1);
+const totalSteps = 4;
+
+const steps = [
+    { id: 1, title: "The Basics", desc: "Name & Category", fields: ['title', 'author_name', 'category_id'] },
+    { id: 2, title: "Details", desc: "Time & Difficulty", fields: ['cook_time', 'servings', 'difficulty'] },
+    { id: 3, title: "Ingredients", desc: "What goes in?", fields: ['ingredients'] },
+    { id: 4, title: "Finish", desc: "Instructions & Photos", fields: ['instructions', 'images'] }
+];
+
+// --- ERROR HANDLING LOGIC ---
+
+// Check if a specific step has errors
+const stepHasError = (stepId) => {
+    const step = steps.find(s => s.id === stepId);
+    if (!step) return false;
+
+    return step.fields.some(field => {
+        // Check for direct field error (e.g., 'title')
+        if (form.errors[field]) return true;
+
+        // Check for array errors (e.g., 'ingredients.0.name' or 'images.1')
+        return Object.keys(form.errors).some(key => key.startsWith(`${field}.`));
+    });
+};
+
+const nextStep = () => {
+    // Simple client-side check before moving next (optional but good UX)
+    const currentFields = steps[currentStep.value - 1].fields;
+    let hasEmpty = false;
+
+    // Very basic check for empty required fields
+    currentFields.forEach(field => {
+        if (field === 'ingredients' || field === 'images') return; // Skip complex arrays
+        if (!form[field]) hasEmpty = true;
+    });
+
+    if (hasEmpty) {
+        // You could trigger a toast here
+        // alert("Please fill in all fields.");
+    }
+
+    if (currentStep.value < totalSteps) currentStep.value++;
+};
+
+const prevStep = () => {
+    if (currentStep.value > 1) currentStep.value--;
+};
+
+// --- INGREDIENT & FILE LOGIC ---
+const addIngredient = () => form.ingredients.push({ name: '', quantity: '', unit: '' });
+const removeIngredient = (index) => form.ingredients.length > 1 && form.ingredients.splice(index, 1);
+const handleImageUpload = (e) => form.images = Array.from(e.target.files);
+
+// --- SUBMIT WITH AUTO-JUMP ---
+const submit = () => {
+    form.post('/recipes', {
+        forceFormData: true,
+        onError: (errors) => {
+            // Find the *first* step that contains an error
+            const firstErrorStep = steps.find(step => stepHasError(step.id));
+            if (firstErrorStep) {
+                currentStep.value = firstErrorStep.id;
+            }
+        }
+    });
+};
 </script>
 
 <template>
 
     <Head title="Add Recipe" />
     <Layout>
-        Add New Recipe
+        <div class="py-10 min-h-screen relative mx-auto max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
+
+            <div class="mx-auto mb-10 text-center">
+                <h1 class="text-4xl font-black text-gray-900 tracking-tight drop-shadow-sm">
+                    Share Your <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Masterpiece</span>
+                </h1>
+                <p class="text-gray-500 mt-2 text-lg">Step {{ currentStep }} of {{ totalSteps }}: {{
+                    steps[currentStep-1].title }}</p>
+            </div>
+
+            <div class="mb-8 mx-auto max-w-3xl">
+                <div class="relative h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="absolute top-0 left-0 h-full transition-all duration-500 ease-out"
+                        :class="stepHasError(currentStep) ? 'bg-red-500' : 'bg-gradient-to-r from-orange-500 to-red-600'"
+                        :style="{ width: `${(currentStep / totalSteps) * 100}%` }"></div>
+                </div>
+
+                <div class="flex justify-between mt-4 text-xs font-bold text-gray-400 uppercase tracking-widest px-1">
+                    <span v-for="step in steps" :key="step.id"
+                        class="cursor-pointer transition-colors flex items-center gap-1" :class="{
+                            'text-orange-600': currentStep === step.id && !stepHasError(step.id),
+                            'text-red-600': stepHasError(step.id),
+                            'text-gray-800': currentStep > step.id && !stepHasError(step.id)
+                        }" @click="currentStep = step.id">
+                        {{ step.title }}
+                        <span v-if="stepHasError(step.id)"
+                            class="block h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
+                    </span>
+                </div>
+            </div>
+
+            <div v-if="Object.keys(form.errors).length > 0"
+                class="mx-auto max-w-3xl mb-6 p-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-bold text-center animate-pulse">
+                Please correct the errors in the highlighted steps.
+            </div>
+
+            <form @submit.prevent="submit" class="relative mx-auto max-w-3xl">
+                <transition name="slide-fade" mode="out-in">
+
+                    <div v-if="currentStep === 1" key="step1"
+                        class="space-y-8 p-8 sm:p-10 rounded-[2.5rem] bg-white/70 border border-white/60 shadow-xl backdrop-blur-2xl">
+                        <div class="space-y-2">
+                            <label class="font-bold text-gray-700 ml-1">Recipe Title</label>
+                            <input v-model="form.title" type="text" placeholder="e.g. Grandma's Apple Pie"
+                                class="glass-input w-full text-xl font-bold"
+                                :class="{ 'ring-2 ring-red-500 bg-red-50': form.errors.title }">
+                            <div v-if="form.errors.title" class="text-red-500 text-sm ml-1 mt-1">{{ form.errors.title }}
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="font-bold text-gray-700 ml-1">Chef Name</label>
+                            <input v-model="form.author_name" type="text" placeholder="Your Name"
+                                class="glass-input w-full"
+                                :class="{ 'ring-2 ring-red-500 bg-red-50': form.errors.author_name }">
+                            <div v-if="form.errors.author_name" class="text-red-500 text-sm ml-1 mt-1">{{
+                                form.errors.author_name }}</div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <GlassCombobox
+                                label="Category"
+                                :options="categories"
+                                v-model="form.category_id"
+                                placeholder="Search category..."
+                                v-if="categories && categories.length > 0"
+                            />
+                            <!-- Fallback: show standard select if no categories, or GlassCombobox fails -->
+                            <select
+                                v-else
+                                v-model="form.category_id"
+                                class="glass-input w-full"
+                            >
+                                <option disabled value="">Select category</option>
+                                <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                                    {{ cat.name }}
+                                </option>
+                            </select>
+                            <div v-if="form.errors.category_id" class="text-red-500 text-sm ml-1 mt-1">
+                                {{ form.errors.category_id }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-else-if="currentStep === 2" key="step2"
+                        class="space-y-8 p-8 sm:p-10 rounded-[2.5rem] bg-white/70 border border-white/60 shadow-xl backdrop-blur-2xl">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="font-bold text-gray-700 ml-1 text-sm uppercase tracking-wide">Cook Time
+                                    (min)</label>
+                                <input v-model="form.cook_time" type="number"
+                                    class="glass-input w-full text-center font-black text-3xl h-24"
+                                    :class="{ 'ring-2 ring-red-500 bg-red-50': form.errors.cook_time }">
+                                <div v-if="form.errors.cook_time" class="text-red-500 text-sm ml-1 mt-1">{{
+                                    form.errors.cook_time }}</div>
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="font-bold text-gray-700 ml-1 text-sm uppercase tracking-wide">Servings</label>
+                                <input v-model="form.servings" type="number"
+                                    class="glass-input w-full text-center font-black text-3xl h-24"
+                                    :class="{ 'ring-2 ring-red-500 bg-red-50': form.errors.servings }">
+                                <div v-if="form.errors.servings" class="text-red-500 text-sm ml-1 mt-1">{{
+                                    form.errors.servings }}</div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <GlassCombobox
+                                label="Difficulty"
+                                :options="difficultyOptions"
+                                v-model="form.difficulty"
+                                placeholder="Select difficulty..."
+                            />
+                            <div v-if="form.errors.difficulty" class="text-red-500 text-sm ml-1 mt-1">{{
+                                form.errors.difficulty }}</div>
+                        </div>
+                    </div>
+
+                    <div v-else-if="currentStep === 3" key="step3"
+                        class="space-y-6 p-8 sm:p-10 rounded-[2.5rem] bg-white/70 border border-white/60 shadow-xl backdrop-blur-2xl min-h-[400px]">
+                        <div class="flex items-center justify-between px-1 mb-4">
+                            <label class="font-bold text-2xl text-gray-800">Ingredients</label>
+                            <button type="button" @click="addIngredient"
+                                class="group flex items-center gap-2 rounded-full bg-orange-50 px-5 py-2.5 text-sm font-bold text-orange-600 transition-all hover:bg-orange-100 hover:scale-105 active:scale-95 shadow-sm">
+                                <span>+ Add Item</span>
+                            </button>
+                        </div>
+
+                        <div class="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                            <transition-group name="list">
+                                <div v-for="(ingredient, index) in form.ingredients" :key="index"
+                                    class="flex gap-3 items-center group mb-3">
+                                    <div class="grid grid-cols-12 gap-3 flex-1">
+                                        <div class="col-span-3">
+                                            <input v-model="ingredient.quantity" placeholder="Qty"
+                                                class="glass-input w-full text-center bg-white/80"
+                                                :class="{ 'ring-2 ring-red-500': form.errors[`ingredients.${index}.quantity`] }">
+                                        </div>
+                                        <div class="col-span-3">
+                                            <input v-model="ingredient.unit" placeholder="Unit"
+                                                class="glass-input w-full text-center bg-white/80"
+                                                :class="{ 'ring-2 ring-red-500': form.errors[`ingredients.${index}.unit`] }">
+                                        </div>
+                                        <div class="col-span-6">
+                                            <input v-model="ingredient.name" placeholder="Item Name"
+                                                class="glass-input w-full bg-white/80"
+                                                :class="{ 'ring-2 ring-red-500': form.errors[`ingredients.${index}.name`] }">
+                                        </div>
+                                    </div>
+                                    <button type="button" @click="removeIngredient(index)"
+                                        class="h-10 w-10 flex-shrink-0 flex items-center justify-center rounded-full bg-red-50 text-red-400 opacity-50 hover:opacity-100 hover:bg-red-100 hover:text-red-600 transition-all active:scale-90">
+                                        &times;
+                                    </button>
+                                </div>
+                            </transition-group>
+                        </div>
+                        <div v-if="form.errors.ingredients" class="text-red-500 text-sm ml-1">{{ form.errors.ingredients
+                            }}</div>
+                    </div>
+
+                    <div v-else key="step4"
+                        class="space-y-8 p-8 sm:p-10 rounded-[2.5rem] bg-white/70 border border-white/60 shadow-xl backdrop-blur-2xl">
+                        <div class="space-y-2">
+                            <label class="font-bold text-gray-700 ml-1">Instructions</label>
+                            <textarea v-model="form.instructions" rows="8"
+                                class="glass-input w-full resize-none leading-relaxed text-lg"
+                                placeholder="Step 1: Preheat the oven..."
+                                :class="{ 'ring-2 ring-red-500 bg-red-50': form.errors.instructions }"></textarea>
+                            <div v-if="form.errors.instructions" class="text-red-500 text-sm ml-1 mt-1">{{
+                                form.errors.instructions }}</div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="font-bold text-gray-700 ml-1">Photos</label>
+                            <div class="relative group cursor-pointer">
+                                <input type="file" multiple @change="handleImageUpload"
+                                    class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer">
+                                <div class="border-3 border-dashed border-gray-300/60 rounded-3xl p-10 text-center bg-white/40 transition-all group-hover:bg-orange-50/50 group-hover:border-orange-300 group-hover:scale-[1.01]"
+                                    :class="{ 'border-red-400 bg-red-50': form.errors.images }">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <div
+                                            class="h-16 w-16 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2 shadow-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                            </svg>
+                                        </div>
+                                        <p class="text-gray-500 font-medium text-lg" v-if="form.images.length === 0">
+                                            Drop photos here</p>
+                                        <p class="text-orange-600 font-bold text-xl" v-else>{{ form.images.length }}
+                                            files selected</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="form.errors.images" class="text-red-500 text-sm ml-1">{{ form.errors.images }}
+                            </div>
+                        </div>
+                    </div>
+
+                </transition>
+
+                <div class="mt-8 flex items-center justify-between">
+                    <button type="button" @click="prevStep"
+                        class="px-6 py-3 rounded-xl font-bold text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                        :class="{ 'invisible': currentStep === 1 }">
+                        &larr; Back
+                    </button>
+
+                    <button v-if="currentStep < totalSteps" type="button" @click="nextStep"
+                        class="px-8 py-3 rounded-xl bg-gray-900 font-bold text-white shadow-lg hover:bg-black hover:shadow-xl hover:-translate-y-1 transition-all">
+                        Next Step &rarr;
+                    </button>
+
+                    <button v-else :disabled="form.processing"
+                        class="px-10 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 font-bold text-white shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105 transition-all disabled:opacity-70 disabled:scale-100">
+                        {{ form.processing ? 'Publishing...' : 'Publish Recipe' }}
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </Layout>
 </template>
 
 <style scoped>
 
+/* Transitions */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-fade-enter-from {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.slide-fade-leave-to {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.3s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
 </style>
