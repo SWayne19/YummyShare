@@ -20,9 +20,6 @@ Route::get('/aboutus', function () {
     return inertia('AboutUs');
 });
 
-// categories
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-
 // recipes
 Route::resource('recipes', RecipeController::class)
     ->only([

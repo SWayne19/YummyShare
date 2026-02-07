@@ -38,6 +38,10 @@ const featuredRecipes = [
         tag: "Breakfast"
     },
 ];
+
+defineProps({
+    categories: Array
+});
 </script>
 
 <template>
@@ -106,98 +110,177 @@ const featuredRecipes = [
                 </div>
             </section>
 
-            <section class="animate-fade-in-up animation-delay-400 mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-8 px-2">
-                    <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Fresh from the Kitchen</h2>
+            <section class="space-y-20 pb-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+                <div class="relative z-10 mx-auto max-w-4xl text-center pt-8 reveal-card">
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/50 px-4 py-1.5 backdrop-blur-sm mb-6 shadow-sm cursor-default transition-transform hover:scale-105">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                        </span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-orange-700">Curated
+                            Collections</span>
+                    </div>
+
+                    <h1 class="text-5xl font-black tracking-tight text-gray-900 sm:text-7xl mb-6">
+                        Find Your <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Flavor</span>
+                    </h1>
+
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                        Journey through our culinary collections. From quick bites to gourmet feasts, discover the
+                        perfect
+                        dish for every palate.
+                    </p>
                 </div>
 
-                <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    <div v-for="recipe in featuredRecipes" :key="recipe.id"
-                        class="group relative flex flex-col overflow-hidden rounded-[2rem] bg-white transition-all duration-500 hover:shadow-2xl hover:shadow-gray-200/50">
+                <div class="space-y-16">
 
-                        <div class="relative h-72 w-full overflow-hidden">
-                            <div class="absolute inset-0 bg-gray-200 animate-pulse" v-if="!recipe.image"></div>
-                            <img :src="recipe.image" :alt="recipe.title"
-                                class="h-full w-full object-cover transition-transform duration-200 group-hover:scale-110">
+                    <Link v-for="(category, index) in categories" :key="category.id"
+                        :href="`/?category=${category.slug}`"
+                        class="group relative block h-[500px] sm:h-[600px] w-full overflow-hidden rounded-[3rem] shadow-xl transition-all duration-700 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] hover:-translate-y-1 reveal-card"
+                        :class="{ 'md:w-[95%] md:ml-auto': index % 2 !== 0, 'md:w-[95%] md:mr-auto': index % 2 === 0 }">
+                        <div class="absolute inset-0 h-full w-full overflow-hidden bg-gray-200">
+                            <!-- Removed image hover scale effect class -->
+                            <img :src="category.image" :alt="category.name"
+                                class="h-full w-full object-cover transition-transform duration-[1.5s] ease-out" />
+                        </div>
 
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60">
-                            </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-75">
+                        </div>
 
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-wide text-gray-900 backdrop-blur-md shadow-sm">
-                                    {{ recipe.tag }}
-                                </span>
-                            </div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 sm:p-14">
 
-                            <button
-                                class="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md text-white transition-all hover:bg-white hover:text-red-500 hover:scale-110">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="w-5 h-5">
-                                    <path
-                                        d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3.25 7.502 3.25c1.548 0 3.09.661 4.113 1.772A5.253 5.253 0 0 1 16.036 3.25c2.788 0 5.253 2.072 5.253 5.003 0 3.923-2.438 7.11-4.739 9.253a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
-                                </svg>
-                            </button>
+                            <div class="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
 
-                            <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end text-white">
-                                <div class="flex items-center gap-1 text-sm font-medium">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                        class="w-4 h-4 text-orange-400">
-                                        <path fill-rule="evenodd"
-                                            d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    {{ recipe.rating }} <span class="text-white/70 text-xs">({{ recipe.reviews
-                                        }})</span>
-                                </div>
                                 <div
-                                    class="flex items-center gap-1 text-xs font-medium bg-black/30 px-2 py-1 rounded-lg backdrop-blur-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                        class="w-3.5 h-3.5">
-                                        <path fill-rule="evenodd"
-                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    {{ recipe.time }}
+                                    class="mb-4 opacity-0 transform -translate-y-4 transition-all duration-500 delay-100 group-hover:opacity-100 group-hover:translate-y-0">
+                                    <span
+                                        class="inline-block px-3 py-1 rounded-lg bg-white/20 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest border border-white/20">
+                                        Collection #{{ index + 1 }}
+                                    </span>
+                                </div>
+
+                                <h2
+                                    class="text-5xl sm:text-7xl font-black text-white mb-4 tracking-tighter drop-shadow-lg">
+                                    {{ category.name }}
+                                </h2>
+
+                                <div class="max-w-2xl">
+                                    <p
+                                        class="text-lg sm:text-xl font-medium text-gray-200 line-clamp-2 leading-relaxed mb-8 opacity-90 group-hover:text-white transition-colors">
+                                        {{ category.description }}
+                                    </p>
+                                </div>
+
+                                <div class="flex items-center gap-4">
+                                    <span
+                                        class="group-hover:pl-2 transition-all duration-300 flex items-center gap-2 text-white font-bold text-lg tracking-wide">
+                                        Explore Recipes
+                                        <div
+                                            class="h-10 w-10 rounded-full bg-orange-600 flex items-center justify-center transform transition-transform duration-300 group-hover:rotate-45 group-hover:bg-white group-hover:text-orange-600 shadow-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                                            </svg>
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
+                    </Link>
 
-                        <div class="flex flex-1 flex-col p-6">
-                            <h3
-                                class="text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2 mb-2">
-                                {{ recipe.title }}
-                            </h3>
+                </div>
 
-                            <div class="flex items-center gap-3 text-sm text-gray-500 mb-6">
-                                <span class="flex items-center gap-1">
-                                    <span class="text-orange-500">🔥</span> {{ recipe.calories }}
-                                </span>
-                                <span class="h-1 w-1 rounded-full bg-gray-300"></span>
-                                <span>Easy</span>
-                            </div>
-
-                            <div class="mt-auto flex items-center justify-between border-t border-gray-100 pt-4">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="h-8 w-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-xs ring-2 ring-white shadow-sm">
-                                        {{ recipe.chef.charAt(0) }}
-                                    </div>
-                                    <span class="text-sm font-bold text-gray-700">{{ recipe.chef }}</span>
-                                </div>
-                                <button
-                                    class="rounded-full bg-gray-50 p-2 text-gray-400 transition-all hover:bg-orange-50 hover:text-orange-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                <!-- Animated Spotlight "More categories coming soon..." -->
+                <div class="text-center pt-10 reveal-card">
+                    <div class="relative inline-block">
+                        <span class="spotlight z-0"></span>
+                        <p class="relative z-10 text-gray-400 font-medium font-semibold text-xl px-7 py-4"
+                            style="text-shadow: 0 4px 32px rgba(255,255,255,0.20);">
+                            More categories coming soon...
+                        </p>
                     </div>
                 </div>
+
+            </section>
+
+            <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20 space-y-16">
+
+                <div class="text-center mb-12 reveal-on-scroll">
+                    <h2 class="text-3xl font-black text-gray-900 tracking-tight sm:text-5xl">Fresh from the Kitchen</h2>
+                    <p class="mt-4 text-xl text-gray-500">Curated picks for your daily inspiration.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <Link v-for="(recipe, index) in featuredRecipes" :key="recipe.id" :href="`/recipes/${recipe.id}`"
+                        class="group relative block h-[500px] w-full overflow-hidden rounded-[2.5rem] shadow-xl transition-all duration-500 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.25)] hover:-translate-y-2 reveal-on-scroll"
+                        :style="{ transitionDelay: `${index * 100}ms` }">
+                        <div class="absolute inset-0 h-full w-full overflow-hidden bg-gray-200">
+                            <!-- Removed image hover scale effect class -->
+                            <img :src="recipe.image" :alt="recipe.title"
+                                class="h-full w-full object-cover transition-transform duration-[1.2s] ease-out" />
+                        </div>
+
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-70">
+                        </div>
+
+                        <div class="absolute top-6 left-6 z-10">
+                            <span
+                                class="inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-4 py-2 text-sm font-bold text-white border border-white/20 shadow-sm transition-transform duration-300 group-hover:scale-105">
+                                <span class="h-2 w-2 rounded-full bg-orange-500"></span>
+                                {{ recipe.tag }}
+                            </span>
+                        </div>
+
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 sm:p-10">
+                            <div class="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+
+                                <div
+                                    class="flex items-center gap-4 text-orange-300 font-bold text-sm tracking-wider uppercase mb-3 opacity-0 transform -translate-y-2 transition-all duration-500 delay-75 group-hover:opacity-100 group-hover:translate-y-0">
+                                    <span>{{ recipe.time }}</span>
+                                    <span class="h-1 w-1 rounded-full bg-white/50"></span>
+                                    <span>{{ recipe.calories }}</span>
+                                </div>
+
+                                <h3
+                                    class="text-3xl sm:text-4xl font-black text-white mb-6 leading-tight drop-shadow-md">
+                                    {{ recipe.title }}
+                                </h3>
+
+                                <div class="flex items-center justify-between border-t border-white/20 pt-6">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white border border-white/30 font-bold">
+                                            {{ recipe.chef.charAt(0) }}
+                                        </div>
+                                        <div class="flex flex-col text-white">
+                                            <span class="text-xs font-medium opacity-80 uppercase tracking-wide">Recipe
+                                                By</span>
+                                            <span class="text-sm font-bold">{{ recipe.chef }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="h-12 w-12 rounded-full bg-white text-gray-900 flex items-center justify-center shadow-lg transform transition-transform duration-300 group-hover:rotate-45 group-hover:bg-orange-500 group-hover:text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </Link>
+                </div>
+
             </section>
 
             <section class="animate-fade-in-up animation-delay-600 mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
@@ -247,6 +330,23 @@ const featuredRecipes = [
     }
 }
 
+@keyframes spotlightMove {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.72;
+    }
+
+    50% {
+        transform: translate(-50%, -60%) scale(1.08);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.7;
+    }
+}
+
 .animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
@@ -262,5 +362,21 @@ const featuredRecipes = [
 
 .animation-delay-600 {
     animation-delay: 0.6s;
+}
+
+.spotlight {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    pointer-events: none;
+    z-index: 1;
+    width: 240px;
+    height: 66px;
+    transform: translate(-50%, -50%);
+    border-radius: 60px;
+    background: radial-gradient(ellipse at center, rgba(255, 180, 80, 0.22) 0%, rgba(255, 140, 55, 0.15) 60%, rgba(255, 255, 255, 0) 100%);
+    filter: blur(9px);
+    animation: spotlightMove 2.2s ease-in-out infinite alternate;
+    opacity: 0.7;
 }
 </style>

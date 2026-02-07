@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $categories = Category::select('name')->orderByDesc('id')->take(2)->get();
+        $categories = Category::select('id', 'name', 'slug', 'image', 'description')->get();
         return Inertia::render('Index', [
             'categories' => $categories
         ]);
