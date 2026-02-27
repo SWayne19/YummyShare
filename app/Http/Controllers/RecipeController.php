@@ -12,11 +12,37 @@ use Inertia\Inertia;
 
 class RecipeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $recipes = Recipe::with(['category', 'images'])->latest()->get();
+        $query = Recipe::with(['category', 'images'])->latest();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('author_name', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($categoryId = $request->input('category')) {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($difficulty = $request->input('difficulty')) {
+            $query->where('difficulty', $difficulty);
+        }
+
+        if ($maxTime = $request->input('max_time')) {
+            $query->where('cook_time', '<=', (int) $maxTime);
+        }
+
+        $recipes = $query->paginate(9)->withQueryString();
+
+        $categories = Category::select('id', 'name')->orderBy('name')->get();
+
         return Inertia::render('Recipes/Index', [
-            'recipes' => $recipes
+            'recipes' => $recipes,
+            'categories' => $categories,
+            'filters' => $request->only(['search', 'category', 'difficulty', 'max_time']),
         ]);
     }
     public function create()
@@ -27,9 +53,22 @@ class RecipeController extends Controller
         ]);
     }
 
-    public function show()
+    public function show(Recipe $recipe)
     {
-        //
+        $recipe->load([
+            'category',
+            'images',
+            'ingredients' => function ($query) {
+                $query->orderBy('name');
+            },
+        ]);
+
+        $mainImage = $recipe->images->firstWhere('is_main', true) ?? $recipe->images->first();
+
+        return Inertia::render('Recipes/Show', [
+            'recipe' => $recipe,
+            'mainImage' => $mainImage,
+        ]);
     }
 
     public function store(Request $request)
@@ -61,7 +100,7 @@ class RecipeController extends Controller
                 $recipe = Recipe::create([
                     'category_id' => $validated['category_id'],
                     'title' => $validated['title'],
-                    'slug' => Str::slug($validated['title']) . '-' . uniqid(), 
+                    'slug' => Str::slug($validated['title']) . '-' . uniqid(),
                     'author_name' => $validated['author_name'],
                     'cook_time' => $validated['cook_time'],
                     'servings' => $validated['servings'],

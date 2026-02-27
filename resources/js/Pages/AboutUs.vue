@@ -50,16 +50,6 @@ onMounted(() => {
         <div class="space-y-24 pb-12">
 
             <section class="relative z-10 text-center pt-12 px-4 reveal-on-scroll">
-                <div
-                    class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50/50 px-4 py-1.5 backdrop-blur-sm mb-6 shadow-sm cursor-default transition-transform hover:scale-105">
-                    <span class="relative flex h-2 w-2">
-                        <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                    </span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-orange-700">Our Story</span>
-                </div>
-
                 <h1 class="text-5xl font-black tracking-tight text-gray-900 sm:text-7xl leading-tight mb-6">
                     Bringing the World <br />
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Together at

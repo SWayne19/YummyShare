@@ -62,16 +62,6 @@ defineProps({
                 </div>
 
                 <div class="relative z-10 mx-auto max-w-4xl text-center px-4 pt-20 animate-fade-in-up">
-                    <div
-                        class="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 backdrop-blur-md mb-6 shadow-sm transition-transform hover:scale-105 cursor-default">
-                        <span class="relative flex h-2 w-2">
-                            <span
-                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                        </span>
-                        <span class="text-xs font-bold uppercase tracking-wider text-white">#1 Food Community</span>
-                    </div>
-
                     <h1 class="text-5xl font-black tracking-tight text-white sm:text-7xl leading-tight drop-shadow-lg">
                         Cook Like a Pro,<br />
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-red-600">Share
