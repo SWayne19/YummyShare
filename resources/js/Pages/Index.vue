@@ -2,43 +2,6 @@
 import { Link } from "@inertiajs/vue3";
 import Layout from "./Components/Layout.vue";
 
-// Mock data - replace with props later
-const featuredRecipes = [
-    {
-        id: 1,
-        title: "Creamy Garlic Tuscan Salmon",
-        chef: "Chef Mario",
-        time: "25 min",
-        calories: "450 kcal",
-        rating: 4.8,
-        reviews: 120,
-        image: "https://images.unsplash.com/photo-1467003909585-2f8a7270028d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        tag: "Popular"
-    },
-    {
-        id: 2,
-        title: "Classic Avocado Toast",
-        chef: "Sarah Jenkins",
-        time: "10 min",
-        calories: "320 kcal",
-        rating: 4.9,
-        reviews: 85,
-        image: "https://images.unsplash.com/photo-1588137372308-15f75323ca8d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        tag: "Healthy"
-    },
-    {
-        id: 3,
-        title: "Berry & Yogurt Smoothie Bowl",
-        chef: "FitKitchen",
-        time: "15 min",
-        calories: "280 kcal",
-        rating: 4.7,
-        reviews: 42,
-        image: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        tag: "Breakfast"
-    },
-];
-
 defineProps({
     categories: Array
 });
@@ -128,8 +91,7 @@ defineProps({
 
                 <div class="space-y-16">
 
-                    <Link v-for="(category, index) in categories" :key="category.id"
-                        :href="`/?category=${category.slug}`"
+                    <div v-for="(category, index) in categories" :key="category.id"
                         class="group relative block h-[500px] sm:h-[600px] w-full overflow-hidden rounded-[3rem] shadow-xl transition-all duration-700 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] hover:-translate-y-1 reveal-card"
                         :class="{ 'md:w-[95%] md:ml-auto': index % 2 !== 0, 'md:w-[95%] md:mr-auto': index % 2 === 0 }">
                         <div class="absolute inset-0 h-full w-full overflow-hidden bg-gray-200">
@@ -182,7 +144,7 @@ defineProps({
                                 </div>
                             </div>
                         </div>
-                    </Link>
+                    </div>
 
                 </div>
 
@@ -195,80 +157,6 @@ defineProps({
                             More categories coming soon...
                         </p>
                     </div>
-                </div>
-
-            </section>
-
-            <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20 space-y-16">
-
-                <div class="text-center mb-12 reveal-on-scroll">
-                    <h2 class="text-3xl font-black text-gray-900 tracking-tight sm:text-5xl">Fresh from the Kitchen</h2>
-                    <p class="mt-4 text-xl text-gray-500">Curated picks for your daily inspiration.</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <Link v-for="(recipe, index) in featuredRecipes" :key="recipe.id" :href="`/recipes/${recipe.id}`"
-                        class="group relative block h-[500px] w-full overflow-hidden rounded-[2.5rem] shadow-xl transition-all duration-500 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.25)] hover:-translate-y-2 reveal-on-scroll"
-                        :style="{ transitionDelay: `${index * 100}ms` }">
-                        <div class="absolute inset-0 h-full w-full overflow-hidden bg-gray-200">
-                            <!-- Removed image hover scale effect class -->
-                            <img :src="recipe.image" :alt="recipe.title"
-                                class="h-full w-full object-cover transition-transform duration-[1.2s] ease-out" />
-                        </div>
-
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-70">
-                        </div>
-
-                        <div class="absolute top-6 left-6 z-10">
-                            <span
-                                class="inline-flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-4 py-2 text-sm font-bold text-white border border-white/20 shadow-sm transition-transform duration-300 group-hover:scale-105">
-                                <span class="h-2 w-2 rounded-full bg-orange-500"></span>
-                                {{ recipe.tag }}
-                            </span>
-                        </div>
-
-                        <div class="absolute inset-0 flex flex-col justify-end p-8 sm:p-10">
-                            <div class="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-
-                                <div
-                                    class="flex items-center gap-4 text-orange-300 font-bold text-sm tracking-wider uppercase mb-3 opacity-0 transform -translate-y-2 transition-all duration-500 delay-75 group-hover:opacity-100 group-hover:translate-y-0">
-                                    <span>{{ recipe.time }}</span>
-                                    <span class="h-1 w-1 rounded-full bg-white/50"></span>
-                                    <span>{{ recipe.calories }}</span>
-                                </div>
-
-                                <h3
-                                    class="text-3xl sm:text-4xl font-black text-white mb-6 leading-tight drop-shadow-md">
-                                    {{ recipe.title }}
-                                </h3>
-
-                                <div class="flex items-center justify-between border-t border-white/20 pt-6">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="h-10 w-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white border border-white/30 font-bold">
-                                            {{ recipe.chef.charAt(0) }}
-                                        </div>
-                                        <div class="flex flex-col text-white">
-                                            <span class="text-xs font-medium opacity-80 uppercase tracking-wide">Recipe
-                                                By</span>
-                                            <span class="text-sm font-bold">{{ recipe.chef }}</span>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        class="h-12 w-12 rounded-full bg-white text-gray-900 flex items-center justify-center shadow-lg transform transition-transform duration-300 group-hover:rotate-45 group-hover:bg-orange-500 group-hover:text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                                        </svg>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </Link>
                 </div>
 
             </section>
