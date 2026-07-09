@@ -113,7 +113,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
 
 <template>
     <nav :class="[
-        'fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-500 ease-in-out',
+        'fixed top-0 left-0 right-0 z-50 h-14 transition-all duration-500 ease-in-out',
         navBgClass
     ]">
 
@@ -122,7 +122,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
             <div class="flex items-center gap-8">
                 <Link href="/" class="flex items-center gap-2.5 group">
                     <span :class="[
-                        'text-xl font-extrabold tracking-tight glassy-text transition-colors duration-300',
+                        'text-lg font-extrabold tracking-tight glassy-text transition-colors duration-300',
                         logoTextClass
                     ]">
                         Yummy<span class="text-orange-600 dark:text-orange-500">Share</span>
@@ -131,7 +131,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
 
                 <div class="hidden md:flex md:gap-1">
                     <Link v-for="link in navLinks" :key="link.href" :href="link.href" :class="[
-                        'rounded-full px-4 py-2 text-sm font-bold transition-all duration-300',
+                        'rounded-full px-3 py-1.5 text-sm font-bold transition-all duration-300',
                         navLinkClass(link.href)
                     ]">
                         {{ link.name }}
@@ -142,7 +142,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
             <div class="flex items-center gap-2 sm:gap-3">
                 <!-- Theme Toggle -->
                 <button @click="toggleTheme" :class="[
-                    'rounded-full p-2.5 transition-all duration-300',
+                    'rounded-full p-2 transition-all duration-300',
                     themeButtonClass()
                 ]" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
                     <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
@@ -156,7 +156,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
                 <!-- Logged in: Share Recipe + User Menu -->
                 <template v-if="user">
                     <Link :href="route('recipes.create')" :class="[
-                        'hidden sm:flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold shadow group transition-all hover:-translate-y-0.5',
+                        'hidden sm:flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold shadow group transition-all hover:-translate-y-0.5',
                         shareRecipeClass()
                     ]">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -175,7 +175,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
                                 ? (isDark ? 'hover:bg-white/10' : 'hover:bg-white/40')
                                 : (isHome ? 'hover:bg-white/20' : 'hover:bg-gray-100 dark:hover:bg-white/10')
                         ]">
-                            <div class="h-8 w-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-sm">
+                            <div class="h-7 w-7 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-sm">
                                 {{ user.name.charAt(0).toUpperCase() }}
                             </div>
                             <span :class="['text-sm font-semibold hidden lg:inline', logoTextClass]">{{ user.name }}</span>
@@ -186,16 +186,16 @@ const closeMenu = () => (mobileMenuOpen.value = false);
                             leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100"
                             leave-to-class="transform scale-95 opacity-0">
                             <div v-if="userMenuOpen" @click="userMenuOpen = false"
-                                class="absolute right-0 mt-2 w-48 rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl p-1.5 z-50">
+                                class="absolute right-0 mt-2 w-44 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-xl p-1.5 z-50">
                                 <Link v-if="isAdmin" href="/admin"
-                                    class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                    class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                                     </svg>
                                     Admin Panel
                                 </Link>
                                 <button @click="logout"
-                                    class="flex w-full items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors">
+                                    class="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                                     </svg>
@@ -213,7 +213,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
                         navLinkClass('/login')
                     ]">Sign In</Link>
                     <Link href="/register" :class="[
-                        'hidden sm:inline-flex items-center rounded-full px-5 py-2.5 text-sm font-bold shadow transition-all hover:-translate-y-0.5',
+                        'hidden sm:inline-flex items-center rounded-full px-4 py-2 text-sm font-bold shadow transition-all hover:-translate-y-0.5',
                         shareRecipeClass()
                     ]">Get Started</Link>
                 </template>
@@ -223,12 +223,12 @@ const closeMenu = () => (mobileMenuOpen.value = false);
                     menuButtonClass()
                 ]">
                     <svg v-if="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="2" stroke="currentColor" class="h-7 w-7">
+                        stroke-width="2" stroke="currentColor" class="h-6 w-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                     <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="currentColor" class="h-7 w-7">
+                        stroke="currentColor" class="h-6 w-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                     </svg>
                 </button>
@@ -241,15 +241,15 @@ const closeMenu = () => (mobileMenuOpen.value = false);
         leave-active-class="transition duration-150 ease-in" leave-from-class="transform translate-y-0 opacity-100"
         leave-to-class="transform -translate-y-4 opacity-0">
         <div v-if="mobileMenuOpen"
-            class="fixed inset-x-0 top-20 z-40 border-b px-4 pb-6 pt-2 shadow-2xl md:hidden ios-glass-navmenu">
+            class="fixed inset-x-0 top-14 z-40 border-b px-4 pb-6 pt-2 shadow-2xl md:hidden ios-glass-navmenu">
             <nav class="flex flex-col gap-2">
                 <Link v-for="link in navLinks" :key="link.href" :href="link.href" @click="closeMenu"
-                    class="block rounded-lg px-4 py-3 text-base font-bold text-gray-900 dark:text-gray-100 hover:bg-orange-100 dark:hover:bg-orange-900/30 hover:text-orange-700 dark:hover:text-orange-400 transition-colors duration-200 ios-glass-link">
+                    class="block rounded-lg px-3 py-2.5 text-sm font-bold text-gray-900 dark:text-gray-100 hover:bg-orange-100 dark:hover:bg-orange-900/30 hover:text-orange-700 dark:hover:text-orange-400 transition-colors duration-200 ios-glass-link">
                     <span>{{ link.name }}</span>
                 </Link>
                 <hr class="my-2 border-white/20 dark:border-white/10">
                 <button @click="toggleTheme"
-                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-white/10 px-4 py-3 text-base font-bold text-gray-700 dark:text-gray-200 transition-all">
+                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-white/10 px-3 py-2.5 text-sm font-bold text-gray-700 dark:text-gray-200 transition-all">
                     <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                         <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Z" />
                     </svg>
@@ -261,25 +261,25 @@ const closeMenu = () => (mobileMenuOpen.value = false);
 
                 <template v-if="user">
                     <Link v-if="isAdmin" href="/admin" @click="closeMenu"
-                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-white/10 px-4 py-3 text-base font-bold text-gray-700 dark:text-gray-200 transition-all">
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-white/10 px-3 py-2.5 text-sm font-bold text-gray-700 dark:text-gray-200 transition-all">
                         Admin Panel
                     </Link>
                     <Link :href="route('recipes.create')" @click="closeMenu"
-                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-4 py-3 text-base font-bold text-white active:bg-orange-700 hover:bg-orange-600 shadow-md transition-all">
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-3 py-2.5 text-sm font-bold text-white active:bg-orange-700 hover:bg-orange-600 shadow-md transition-all">
                         + Share Recipe
                     </Link>
                     <button @click="logout(); closeMenu()"
-                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 dark:bg-red-950/30 px-4 py-3 text-base font-bold text-red-600 dark:text-red-400 transition-all">
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 dark:bg-red-950/30 px-3 py-2.5 text-sm font-bold text-red-600 dark:text-red-400 transition-all">
                         Logout
                     </button>
                 </template>
                 <template v-else>
                     <Link href="/login" @click="closeMenu"
-                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-white/10 px-4 py-3 text-base font-bold text-gray-700 dark:text-gray-200 transition-all">
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-white/10 px-3 py-2.5 text-sm font-bold text-gray-700 dark:text-gray-200 transition-all">
                         Sign In
                     </Link>
                     <Link href="/register" @click="closeMenu"
-                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-4 py-3 text-base font-bold text-white active:bg-orange-700 hover:bg-orange-600 shadow-md transition-all">
+                        class="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-3 py-2.5 text-sm font-bold text-white active:bg-orange-700 hover:bg-orange-600 shadow-md transition-all">
                         Get Started
                     </Link>
                 </template>

@@ -18,18 +18,18 @@ const submit = () => {
 <template>
     <Head title="Login" />
     <Layout>
-        <div class="min-h-[70vh] flex items-center justify-center px-4 py-12">
+        <div class="min-h-[60vh] flex items-center justify-center px-4 py-8">
             <div class="w-full max-w-md">
 
-                <div class="text-center mb-8">
-                    <h1 class="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white tracking-tight">
+                <div class="text-center mb-5">
+                    <h1 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white tracking-tight">
                         Welcome <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Back</span>
                     </h1>
                     <p class="text-gray-500 dark:text-gray-400 mt-2">Sign in to share your recipes</p>
                 </div>
 
                 <form @submit.prevent="submit"
-                    class="space-y-5 p-6 sm:p-8 rounded-[2rem] bg-white/70 dark:bg-gray-900/70 border border-white/60 dark:border-gray-800 shadow-xl backdrop-blur-2xl">
+                    class="space-y-4 p-5 sm:p-6 rounded-2xl bg-white/70 dark:bg-gray-900/70 border border-white/60 dark:border-gray-800 shadow-xl backdrop-blur-2xl">
 
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-gray-700 dark:text-gray-200 ml-1">Email</label>
@@ -58,7 +58,7 @@ const submit = () => {
                     </div>
 
                     <button type="submit" :disabled="form.processing"
-                        class="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-bold text-white transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:scale-100">
+                        class="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 font-bold text-white transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:scale-100">
                         {{ form.processing ? 'Signing in...' : 'Sign In' }}
                     </button>
 

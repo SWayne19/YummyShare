@@ -26,22 +26,22 @@ const statusColors = {
     <AdminLayout>
         <div class="space-y-6">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">Dashboard</h1>
+                <h1 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">Dashboard</h1>
                 <p class="text-gray-500 dark:text-gray-400 mt-1">Overview of your YummyShare platform</p>
             </div>
 
             <!-- Stats Grid -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div v-for="card in statCards" :key="card.key"
-                    class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-5 sm:p-6 shadow-sm">
+                    class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-4 sm:p-5 shadow-sm">
                     <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">{{ card.label }}</p>
-                    <p class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{{ stats[card.key] }}</p>
+                    <p class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">{{ stats[card.key] }}</p>
                 </div>
             </div>
 
             <!-- Recent Recipes -->
             <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
-                <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex items-center justify-between px-4 sm:px-5 py-3 border-b border-gray-100 dark:border-gray-800">
                     <h2 class="text-lg font-bold text-gray-900 dark:text-white">Recent Recipes</h2>
                     <Link href="/admin/recipes" class="text-sm font-semibold text-orange-600 dark:text-orange-400 hover:text-orange-700">View all &rarr;</Link>
                 </div>
@@ -50,7 +50,7 @@ const statusColors = {
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="border-b border-gray-100 dark:border-gray-800">
-                                <th class="text-left px-5 sm:px-6 py-3 font-semibold text-gray-500 dark:text-gray-400">Title</th>
+                                <th class="text-left px-4 sm:px-5 py-3 font-semibold text-gray-500 dark:text-gray-400">Title</th>
                                 <th class="text-left px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 hidden sm:table-cell">Author</th>
                                 <th class="text-left px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 hidden md:table-cell">Category</th>
                                 <th class="text-left px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">Status</th>
@@ -60,15 +60,15 @@ const statusColors = {
                         <tbody>
                             <tr v-for="recipe in recentRecipes" :key="recipe.id"
                                 class="border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                <td class="px-5 sm:px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ recipe.title }}</td>
-                                <td class="px-4 py-4 text-gray-600 dark:text-gray-400 hidden sm:table-cell">{{ recipe.author_name }}</td>
-                                <td class="px-4 py-4 text-gray-600 dark:text-gray-400 hidden md:table-cell">{{ recipe.category?.name || '-' }}</td>
-                                <td class="px-4 py-4">
+                                <td class="px-4 sm:px-5 py-3 font-semibold text-gray-900 dark:text-white">{{ recipe.title }}</td>
+                                <td class="px-4 py-3 text-gray-600 dark:text-gray-400 hidden sm:table-cell">{{ recipe.author_name }}</td>
+                                <td class="px-4 py-3 text-gray-600 dark:text-gray-400 hidden md:table-cell">{{ recipe.category?.name || '-' }}</td>
+                                <td class="px-4 py-3">
                                     <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold capitalize" :class="statusColors[recipe.status]">
                                         {{ recipe.status }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-4 text-gray-500 dark:text-gray-400 hidden lg:table-cell">{{ recipe.created_at }}</td>
+                                <td class="px-4 py-3 text-gray-500 dark:text-gray-400 hidden lg:table-cell">{{ recipe.created_at }}</td>
                             </tr>
                         </tbody>
                     </table>

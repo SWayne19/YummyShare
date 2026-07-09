@@ -9,10 +9,10 @@ defineProps({
 
 <template>
     <Layout>
-        <div class="space-y-20 pb-12">
+        <div class="space-y-14 pb-8">
 
             <section
-                class="relative h-screen min-h-[600px] w-full -mt-24 flex items-center justify-center overflow-hidden">
+                class="relative h-screen min-h-[480px] w-full -mt-16 flex items-center justify-center overflow-hidden">
 
                 <div class="absolute inset-0 z-0">
                     <video autoplay loop muted playsinline preload="metadata" class="h-full w-full object-cover"
@@ -24,20 +24,20 @@ defineProps({
                     <div class="absolute inset-0 bg-black/40"></div>
                 </div>
 
-                <div class="relative z-10 mx-auto max-w-4xl text-center px-4 pt-20 animate-fade-in-up">
-                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-white leading-tight drop-shadow-lg">
+                <div class="relative z-10 mx-auto max-w-4xl text-center px-4 pt-14 animate-fade-in-up">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight drop-shadow-lg">
                         Cook Like a Pro,<br />
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-red-600">Share
                             with the World.</span>
                     </h1>
 
-                    <p class="mx-auto mt-6 max-w-2xl text-base sm:text-lg text-gray-200 leading-relaxed drop-shadow-md">
+                    <p class="mx-auto mt-4 max-w-2xl text-sm sm:text-base text-gray-200 leading-relaxed drop-shadow-md">
                         Discover thousands of tested recipes from home cooks. Join the community, save your favorites,
                         and start your culinary journey today.
                     </p>
 
                     <div
-                        class="mx-auto mt-10 flex max-w-lg items-center gap-2 rounded-2xl bg-white/90 dark:bg-white/10 p-2 shadow-2xl backdrop-blur-sm transition-all focus-within:ring-4 focus-within:ring-orange-500/30">
+                        class="mx-auto mt-6 flex max-w-lg items-center gap-2 rounded-xl bg-white/90 dark:bg-white/10 p-1.5 shadow-2xl backdrop-blur-sm transition-all focus-within:ring-4 focus-within:ring-orange-500/30">
                         <div class="pl-4 text-gray-400">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                 class="w-5 h-5">
@@ -47,27 +47,27 @@ defineProps({
                             </svg>
                         </div>
                         <input type="text" placeholder="What do you want to cook?"
-                            class="w-full border-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-0 text-base outline-none h-12">
+                            class="w-full border-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-0 text-base outline-none h-10">
                         <button
-                            class="rounded-xl bg-gray-900 dark:bg-orange-600 px-6 sm:px-8 py-3 font-bold text-white transition-all hover:bg-orange-600 dark:hover:bg-orange-500 hover:shadow-lg whitespace-nowrap">
+                            class="rounded-xl bg-gray-900 dark:bg-orange-600 px-5 sm:px-6 py-2.5 font-bold text-white transition-all hover:bg-orange-600 dark:hover:bg-orange-500 hover:shadow-lg whitespace-nowrap">
                             Search
                         </button>
                     </div>
                 </div>
 
-                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                        stroke="white" class="w-8 h-8 opacity-75">
+                        stroke="white" class="w-6 h-6 opacity-75">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                     </svg>
                 </div>
             </section>
 
-            <section class="space-y-20 pb-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <section class="space-y-14 pb-14 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
                 <div class="relative z-10 mx-auto max-w-4xl text-center pt-8 reveal-card">
                     <div
-                        class="inline-flex items-center gap-2 rounded-full border border-orange-200 dark:border-orange-800 bg-orange-50/50 dark:bg-orange-950/50 px-4 py-1.5 backdrop-blur-sm mb-6 shadow-sm cursor-default transition-transform hover:scale-105">
+                        class="inline-flex items-center gap-2 rounded-full border border-orange-200 dark:border-orange-800 bg-orange-50/50 dark:bg-orange-950/50 px-3 py-1 backdrop-blur-sm mb-4 shadow-sm cursor-default transition-transform hover:scale-105">
                         <span class="relative flex h-2 w-2">
                             <span
                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
@@ -77,21 +77,21 @@ defineProps({
                             Collections</span>
                     </div>
 
-                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-gray-900 dark:text-white mb-6">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-gray-900 dark:text-white mb-4">
                         Find Your <span
                             class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Flavor</span>
                     </h1>
 
-                    <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
                         Journey through our culinary collections. From quick bites to gourmet feasts, discover the
                         perfect dish for every palate.
                     </p>
                 </div>
 
-                <div class="space-y-10 sm:space-y-16">
+                <div class="space-y-8 sm:space-y-12">
 
                     <div v-for="(category, index) in categories" :key="category.id"
-                        class="group relative block h-[400px] sm:h-[500px] md:h-[600px] w-full overflow-hidden rounded-[2rem] sm:rounded-[3rem] shadow-xl transition-all duration-700 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] hover:-translate-y-1 reveal-card"
+                        class="group relative block h-[300px] sm:h-[380px] md:h-[450px] w-full overflow-hidden rounded-2xl sm:rounded-[2rem] shadow-xl transition-all duration-700 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] hover:-translate-y-1 reveal-card"
                         :class="{ 'md:w-[95%] md:ml-auto': index % 2 !== 0, 'md:w-[95%] md:mr-auto': index % 2 === 0 }">
                         <div class="absolute inset-0 h-full w-full overflow-hidden bg-gray-200 dark:bg-gray-800">
                             <img :src="category.image" :alt="category.name" loading="lazy"
@@ -102,7 +102,7 @@ defineProps({
                             class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-75">
                         </div>
 
-                        <div class="absolute inset-0 flex flex-col justify-end p-6 sm:p-8 md:p-14">
+                        <div class="absolute inset-0 flex flex-col justify-end p-5 sm:p-6 md:p-10">
 
                             <div class="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
 
@@ -115,13 +115,13 @@ defineProps({
                                 </div>
 
                                 <h2
-                                    class="text-3xl sm:text-5xl md:text-7xl font-black text-white mb-4 tracking-tighter drop-shadow-lg">
+                                    class="text-2xl sm:text-3xl md:text-5xl font-black text-white mb-4 tracking-tighter drop-shadow-lg">
                                     {{ category.name }}
                                 </h2>
 
                                 <div class="max-w-2xl">
                                     <p
-                                        class="text-base sm:text-lg md:text-xl font-medium text-gray-200 line-clamp-2 leading-relaxed mb-6 sm:mb-8 opacity-90 group-hover:text-white transition-colors">
+                                        class="text-sm sm:text-base md:text-lg font-medium text-gray-200 line-clamp-2 leading-relaxed mb-4 sm:mb-5 opacity-90 group-hover:text-white transition-colors">
                                         {{ category.description }}
                                     </p>
                                 </div>
@@ -131,7 +131,7 @@ defineProps({
                                         class="group-hover:pl-2 transition-all duration-300 flex items-center gap-2 text-white font-bold text-base sm:text-lg tracking-wide">
                                         Explore Recipes
                                         <div
-                                            class="h-10 w-10 rounded-full bg-orange-600 flex items-center justify-center transform transition-transform duration-300 group-hover:rotate-45 group-hover:bg-white group-hover:text-orange-600 shadow-lg">
+                                            class="h-8 w-8 rounded-full bg-orange-600 flex items-center justify-center transform transition-transform duration-300 group-hover:rotate-45 group-hover:bg-white group-hover:text-orange-600 shadow-lg">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                 stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -149,7 +149,7 @@ defineProps({
                 <div class="text-center pt-10 reveal-card">
                     <div class="relative inline-block">
                         <span class="spotlight z-0"></span>
-                        <p class="relative z-10 text-gray-400 dark:text-gray-500 font-medium font-semibold text-lg sm:text-xl px-7 py-4"
+                        <p class="relative z-10 text-gray-400 dark:text-gray-500 font-medium font-semibold text-base sm:text-lg px-7 py-4"
                             style="text-shadow: 0 4px 32px rgba(255,255,255,0.20);">
                             More categories coming soon...
                         </p>
@@ -158,29 +158,29 @@ defineProps({
 
             </section>
 
-            <section class="animate-fade-in-up animation-delay-600 mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+            <section class="animate-fade-in-up animation-delay-600 mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
                 <div
-                    class="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] bg-gray-900 px-6 py-12 sm:py-16 text-center shadow-2xl sm:px-12">
+                    class="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-gray-900 px-6 py-8 sm:py-12 text-center shadow-2xl sm:px-12">
                     <div class="absolute top-0 left-0 -mt-10 h-64 w-64 rounded-full bg-orange-500/20 blur-[100px]">
                     </div>
                     <div class="absolute bottom-0 right-0 -mb-10 h-64 w-64 rounded-full bg-red-500/20 blur-[100px]">
                     </div>
 
                     <div class="relative z-10">
-                        <h2 class="text-2xl sm:text-3xl md:text-5xl font-black tracking-tight text-white">
+                        <h2 class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-white">
                             Got a Secret Recipe?
                         </h2>
                         <p class="mx-auto mt-4 sm:mt-6 max-w-xl text-base sm:text-lg text-gray-300 leading-relaxed">
                             Share your culinary masterpiece with thousands of foodies. Build your profile and inspire
                             others to cook.
                         </p>
-                        <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                        <div class="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-center gap-4">
                             <Link href="/recipes/create"
-                                class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 text-base font-bold text-white shadow-lg shadow-orange-500/30 transition-transform hover:scale-105">
+                                class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-6 py-3 text-base font-bold text-white shadow-lg shadow-orange-500/30 transition-transform hover:scale-105">
                                 Start Sharing
                             </Link>
                             <Link href="/aboutus"
-                                class="inline-flex items-center justify-center rounded-xl bg-white/10 px-8 py-4 text-base font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/20">
+                                class="inline-flex items-center justify-center rounded-xl bg-white/10 px-6 py-3 text-base font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/20">
                                 Learn More
                             </Link>
                         </div>

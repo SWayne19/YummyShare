@@ -22,7 +22,7 @@ const fallbackImage =
 
         <Head :title="recipe.title" />
 
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 space-y-6">
             <nav class="flex items-center justify-between gap-4">
                 <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                     <Link href="/recipes" class="inline-flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition">
@@ -39,9 +39,9 @@ const fallbackImage =
             </nav>
 
             <section
-                class="relative overflow-hidden rounded-3xl bg-white/80 dark:bg-gray-900/80 border border-white/60 dark:border-gray-800 shadow-xl backdrop-blur-xl">
+                class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-gray-900/80 border border-white/60 dark:border-gray-800 shadow-xl backdrop-blur-xl">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                    <div class="relative h-72 sm:h-96 lg:h-full min-h-[300px]">
+                    <div class="relative h-56 sm:h-80 lg:h-full min-h-[240px]">
                         <img :src="mainImage?.image_path || recipe.images?.[0]?.image_path || fallbackImage"
                             :alt="recipe.title" class="h-full w-full object-cover" />
 
@@ -85,9 +85,9 @@ const fallbackImage =
                         </div>
                     </div>
 
-                    <div class="p-5 sm:p-8 lg:p-10 space-y-6">
+                    <div class="p-4 sm:p-6 lg:p-8 space-y-4">
                         <div class="space-y-3">
-                            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-gray-900 dark:text-white">
+                            <h1 class="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-gray-900 dark:text-white">
                                 {{ recipe.title }}
                             </h1>
                             <p class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-[0.16em] font-semibold">
@@ -96,12 +96,12 @@ const fallbackImage =
                         </div>
 
                         <div
-                            class="grid grid-cols-3 gap-3 sm:gap-4 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-gray-800 p-4">
+                            class="grid grid-cols-3 gap-2 sm:gap-3 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-gray-800 p-3">
                             <div class="space-y-1.5">
                                 <p class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                                     Cook Time
                                 </p>
-                                <p class="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
+                                <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
                                     {{ recipe.cook_time }} min
                                 </p>
                             </div>
@@ -109,7 +109,7 @@ const fallbackImage =
                                 <p class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                                     Servings
                                 </p>
-                                <p class="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
+                                <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
                                     {{ recipe.servings }}
                                 </p>
                             </div>
@@ -117,17 +117,17 @@ const fallbackImage =
                                 <p class="text-[10px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                                     Difficulty
                                 </p>
-                                <p class="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
+                                <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
                                     {{ recipe.difficulty ? recipe.difficulty.charAt(0).toUpperCase() +
                                         recipe.difficulty.slice(1) : "N/A" }}
                                 </p>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <div class="space-y-4">
                                 <div class="flex items-center justify-between">
-                                    <h2 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                    <h2 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">
                                         Ingredients
                                         <span v-if="recipe.ingredients?.length"
                                             class="inline-flex items-center justify-center rounded-full bg-orange-50 dark:bg-orange-950/50 px-2.5 py-0.5 text-[11px] font-semibold text-orange-700 dark:text-orange-400 border border-orange-100 dark:border-orange-900">
@@ -137,7 +137,7 @@ const fallbackImage =
                                 </div>
 
                                 <ul v-if="recipe.ingredients?.length"
-                                    class="space-y-2 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-gray-800 p-4 max-h-72 overflow-auto">
+                                    class="space-y-2 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-gray-800 p-3 max-h-60 overflow-auto">
                                     <li v-for="ing in recipe.ingredients" :key="ing.id"
                                         class="flex items-start justify-between gap-3 text-sm text-gray-800 dark:text-gray-200">
                                         <span class="flex-1">
@@ -154,11 +154,11 @@ const fallbackImage =
                             </div>
 
                             <div class="space-y-4">
-                                <h2 class="text-lg font-bold text-gray-900 dark:text-white">
+                                <h2 class="text-base font-bold text-gray-900 dark:text-white">
                                     Instructions
                                 </h2>
                                 <div
-                                    class="prose prose-sm sm:prose-base max-w-none text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-gray-800 rounded-2xl p-4 sm:p-5">
+                                    class="prose prose-sm sm:prose-base max-w-none text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-gray-800 rounded-2xl p-3 sm:p-4">
                                     <p v-for="(block, idx) in recipe.instructions.split(/\n{2,}/)" :key="idx"
                                         class="whitespace-pre-line mb-3 last:mb-0">
                                         {{ block }}
@@ -174,7 +174,7 @@ const fallbackImage =
                             </p>
                             <div class="flex gap-3 overflow-x-auto pb-1 -mx-1 px-1">
                                 <div v-for="img in recipe.images" :key="img.id"
-                                    class="relative h-24 w-32 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 flex-shrink-0">
+                                    class="relative h-20 w-28 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 flex-shrink-0">
                                     <img :src="img.image_path" :alt="recipe.title" loading="lazy" class="h-full w-full object-cover" />
                                     <span v-if="img.is_main"
                                         class="absolute top-2 left-2 rounded-full bg-black/60 text-[10px] font-semibold text-white px-2 py-0.5">
