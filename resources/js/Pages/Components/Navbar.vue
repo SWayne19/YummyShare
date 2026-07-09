@@ -50,10 +50,12 @@ function isActive(path) {
 const navBgClass = computed(() => {
     if (isScrolled.value) {
         return isDark.value
-            ? "ios-glass-scrolled-dark border-b border-white/10"
-            : "ios-glass-scrolled border-b border-white/40";
+            ? "nav-glass-dark nav-glass-scrolled border-b border-white/10"
+            : "nav-glass-light nav-glass-scrolled border-b border-white/40";
     }
-    return "bg-transparent border-b border-transparent shadow-none";
+    return isDark.value
+        ? "nav-glass-dark border-b border-white/5"
+        : "nav-glass-light border-b border-transparent";
 });
 
 function navLinkClass(linkHref) {
@@ -289,36 +291,55 @@ const closeMenu = () => (mobileMenuOpen.value = false);
 </template>
 
 <style scoped>
-.ios-glass-scrolled {
-    background: rgba(255, 255, 255, 0.65);
-    box-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.08),
-        0 6px 36px 4px rgba(0, 0, 0, 0.14),
-        0 1.5px 8px 1.5px rgba(249, 115, 22, 0.08);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+/* Base glass layers — always visible, GPU-composited */
+.nav-glass-light {
+    will-change: backdrop-filter, background-color, box-shadow;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
-.ios-glass-scrolled-dark {
-    background: rgba(15, 15, 25, 0.75);
+.nav-glass-dark {
+    will-change: backdrop-filter, background-color, box-shadow;
+    background: rgba(10, 10, 20, 0.5);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Scrolled — intensify glass effect */
+.nav-glass-light.nav-glass-scrolled {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
     box-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.3),
-        0 6px 36px 4px rgba(0, 0, 0, 0.4),
-        0 1.5px 8px 1.5px rgba(249, 115, 22, 0.1);
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+        0 2px 8px rgba(0, 0, 0, 0.07),
+        0 4px 24px rgba(0, 0, 0, 0.1),
+        0 1px 6px rgba(249, 115, 22, 0.06);
+}
+
+.nav-glass-dark.nav-glass-scrolled {
+    background: rgba(10, 10, 20, 0.78);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.25),
+        0 4px 24px rgba(0, 0, 0, 0.35),
+        0 1px 6px rgba(249, 115, 22, 0.08);
 }
 
 .ios-glass-navmenu {
-    background: rgba(255, 255, 255, 0.85);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border-radius: 0 0 1.5rem 1.5rem;
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
 }
 
 :where(.dark) .ios-glass-navmenu {
-    background: rgba(15, 15, 25, 0.92);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(10, 10, 20, 0.92);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .ios-glass-link {
