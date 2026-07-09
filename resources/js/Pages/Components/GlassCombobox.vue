@@ -1,10 +1,9 @@
-GlassCombobox
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps({
     modelValue: [String, Number],
-    options: { type: Array, required: true }, // Expects [{ id: 1, name: '...' }]
+    options: { type: Array, required: true },
     label: String,
     placeholder: String
 });
@@ -15,13 +14,11 @@ const isOpen = ref(false);
 const search = ref('');
 const containerRef = ref(null);
 
-// Find the name of the currently selected ID
 const selectedName = computed(() => {
     const found = props.options.find(opt => opt.id == props.modelValue);
     return found ? found.name : '';
 });
 
-// Filter options based on search input
 const filteredOptions = computed(() => {
     if (search.value === '') return props.options;
     return props.options.filter(opt =>
@@ -29,11 +26,9 @@ const filteredOptions = computed(() => {
     );
 });
 
-// Handle clicking outside to close
 const handleClickOutside = (e) => {
     if (containerRef.value && !containerRef.value.contains(e.target)) {
         isOpen.value = false;
-        // Reset search to match selection if closed
         if (selectedName.value) search.value = selectedName.value;
     }
 };
@@ -41,7 +36,6 @@ const handleClickOutside = (e) => {
 onMounted(() => document.addEventListener('click', handleClickOutside));
 onUnmounted(() => document.removeEventListener('click', handleClickOutside));
 
-// Initialize search with selected value
 watch(() => props.modelValue, (newVal) => {
     if (newVal) search.value = selectedName.value;
 }, { immediate: true });
@@ -54,19 +48,19 @@ const selectOption = (option) => {
 
 const openDropdown = () => {
     isOpen.value = true;
-    search.value = ''; // Clear search to show all options
+    search.value = '';
 };
 </script>
 
 <template>
     <div class="relative space-y-2" ref="containerRef">
-        <label v-if="label" class="font-bold text-gray-700 ml-1">{{ label }}</label>
+        <label v-if="label" class="font-bold text-gray-700 dark:text-gray-200 ml-1">{{ label }}</label>
 
         <div class="relative">
             <input type="text" v-model="search" @focus="openDropdown" :placeholder="placeholder"
-                class="w-full rounded-2xl border border-white/40 bg-white/50 p-4 pl-5 text-gray-900 placeholder-gray-400 shadow-sm backdrop-blur-xl transition-all focus:bg-white/80 focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 outline-none" />
+                class="w-full rounded-2xl border border-white/40 dark:border-white/10 bg-white/50 dark:bg-white/5 p-4 pl-5 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 shadow-sm backdrop-blur-xl transition-all focus:bg-white/80 dark:focus:bg-white/10 focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 outline-none" />
 
-            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 dark:text-gray-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                     class="w-5 h-5 transition-transform" :class="{ 'rotate-180': isOpen }">
                     <path fill-rule="evenodd"
@@ -80,17 +74,17 @@ const openDropdown = () => {
                 leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0">
                 <ul v-if="isOpen"
-                    class="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white/80 backdrop-blur-xl border border-white/50 p-1 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none scrollbar-thin">
+                    class="absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white/80 dark:bg-gray-900/95 backdrop-blur-xl border border-white/50 dark:border-gray-700 p-1 shadow-2xl ring-1 ring-black/5 dark:ring-white/5 focus:outline-none scrollbar-thin">
                     <li v-if="filteredOptions.length === 0"
-                        class="relative cursor-default select-none py-3 px-4 text-gray-500 italic">
+                        class="relative cursor-default select-none py-3 px-4 text-gray-500 dark:text-gray-400 italic">
                         Nothing found.
                     </li>
                     <li v-for="option in filteredOptions" :key="option.id" @click="selectOption(option)"
-                        class="relative cursor-pointer select-none rounded-xl py-3 pl-4 pr-9 hover:bg-orange-50 text-gray-900 transition-colors"
-                        :class="{ 'bg-orange-100 text-orange-900 font-bold': modelValue === option.id }">
+                        class="relative cursor-pointer select-none rounded-xl py-3 pl-4 pr-9 hover:bg-orange-50 dark:hover:bg-orange-950/50 text-gray-900 dark:text-gray-100 transition-colors"
+                        :class="{ 'bg-orange-100 dark:bg-orange-900/30 text-orange-900 dark:text-orange-300 font-bold': modelValue === option.id }">
                         <span class="block truncate">{{ option.name }}</span>
                         <span v-if="modelValue === option.id"
-                            class="absolute inset-y-0 right-0 flex items-center pr-4 text-orange-600">
+                            class="absolute inset-y-0 right-0 flex items-center pr-4 text-orange-600 dark:text-orange-400">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                 class="w-5 h-5">
                                 <path fill-rule="evenodd"

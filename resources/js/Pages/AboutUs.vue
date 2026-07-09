@@ -26,7 +26,6 @@ const milestones = [
     },
 ];
 
-// --- SCROLL ANIMATION LOGIC ---
 onMounted(() => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -50,14 +49,14 @@ onMounted(() => {
         <div class="space-y-24 pb-12">
 
             <section class="relative z-10 text-center pt-12 px-4 reveal-on-scroll">
-                <h1 class="text-5xl font-black tracking-tight text-gray-900 sm:text-7xl leading-tight mb-6">
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight text-gray-900 dark:text-white leading-tight mb-6">
                     Bringing the World <br />
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Together at
                         the Table.</span>
                 </h1>
 
-                <p class="mx-auto max-w-2xl text-xl text-gray-600 leading-relaxed">
-                    YummyShare was born from a simple belief: <strong class="text-gray-900">Great food is meant to be
+                <p class="mx-auto max-w-2xl text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+                    YummyShare was born from a simple belief: <strong class="text-gray-900 dark:text-white">Great food is meant to be
                         shared.</strong> Since 2022, we've been building a community where home cooks can swap secrets,
                     discover new flavors, and preserve family traditions.
                 </p>
@@ -72,7 +71,7 @@ onMounted(() => {
                 <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center mb-16 reveal-on-scroll">
                         <h2 class="text-3xl font-black text-white sm:text-5xl">Our Journey</h2>
-                        <p class="mt-4 text-lg text-gray-400">From a WhatsApp group to a global kitchen.</p>
+                        <p class="mt-4 text-base sm:text-lg text-gray-400">From a WhatsApp group to a global kitchen.</p>
                     </div>
 
                     <div class="relative">
@@ -87,13 +86,13 @@ onMounted(() => {
                                 <div class="w-full md:w-1/2 pl-20 md:pl-0 md:pr-16"
                                     :class="{ 'md:!pl-16 md:!pr-0': index % 2 !== 0 }">
                                     <div
-                                        class="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 shadow-xl">
+                                        class="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 shadow-xl">
                                         <span
                                             class="inline-block px-3 py-1 mb-3 text-xs font-bold tracking-wider text-orange-400 uppercase bg-orange-500/10 rounded-lg border border-orange-500/20">
                                             {{ milestone.year }}
                                         </span>
-                                        <h3 class="text-2xl font-bold text-white mb-3">{{ milestone.title }}</h3>
-                                        <p class="text-gray-400 leading-relaxed">{{ milestone.description }}</p>
+                                        <h3 class="text-xl sm:text-2xl font-bold text-white mb-3">{{ milestone.title }}</h3>
+                                        <p class="text-gray-400 leading-relaxed text-sm sm:text-base">{{ milestone.description }}</p>
                                     </div>
                                 </div>
 
@@ -111,24 +110,24 @@ onMounted(() => {
 
             <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
                 <div
-                    class="relative overflow-hidden rounded-[3rem] bg-orange-50 px-6 sm:px-10 lg:px-20 py-16 lg:flex lg:items-center lg:gap-x-16 border border-orange-100">
+                    class="relative overflow-hidden rounded-[2rem] sm:rounded-[3rem] bg-orange-50 dark:bg-gray-900 px-6 sm:px-10 lg:px-20 py-12 sm:py-16 lg:flex lg:items-center lg:gap-x-16 border border-orange-100 dark:border-gray-800">
 
                     <div class="relative z-10 lg:w-1/2">
                         <img src="https://news.miami.edu/_assets/images-stories/2015/09/_NN27598-15-940x529.jpg"
-                            alt="Cooking together"
-                            class="rounded-[2rem] shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border-4 border-white" />
+                            alt="Cooking together" loading="lazy"
+                            class="rounded-[2rem] shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border-4 border-white dark:border-gray-700" />
                     </div>
 
                     <div class="relative z-10 mt-12 lg:mt-0 lg:w-1/2">
-                        <h2 class="text-3xl font-black tracking-tight text-gray-900 sm:text-4xl mb-6">
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-gray-900 dark:text-white mb-6">
                             More Than Just Recipes
                         </h2>
-                        <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
                             What started as a small WhatsApp group of food enthusiasts in 2022 has grown into a global
                             platform. We realized that while recipe books are great, the real magic happens when people
                             tweak, improve, and personalize dishes.
                         </p>
-                        <p class="text-lg text-gray-600 leading-relaxed">
+                        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
                             Our purpose is to democratize culinary knowledge. Whether you're a Michelin-star aspirant or
                             someone just trying not to burn toast, YummyShare is your kitchen companion.
                         </p>
@@ -138,13 +137,13 @@ onMounted(() => {
 
             <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 reveal-on-scroll">
                 <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-gray-900">Get in Touch</h2>
-                    <p class="text-gray-600 mt-2">Have a suggestion or just want to say hi?</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Get in Touch</h2>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2">Have a suggestion or just want to say hi?</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
                     <div
-                        class="bg-gray-900 rounded-[2.5rem] p-10 text-white shadow-2xl relative overflow-hidden h-full">
+                        class="bg-gray-900 rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden h-full">
                         <div
                             class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-orange-500 rounded-full blur-[60px] opacity-20">
                         </div>
@@ -153,11 +152,11 @@ onMounted(() => {
                             <div>
                                 <h3 class="font-bold text-gray-400 text-sm uppercase tracking-widest mb-1">Email Us</h3>
                                 <a href="mailto:hello@yummyshare.com"
-                                    class="text-3xl font-bold text-white hover:text-orange-400 transition-colors">hello@yummyshare.com</a>
+                                    class="text-2xl sm:text-3xl font-bold text-white hover:text-orange-400 transition-colors break-all">hello@yummyshare.com</a>
                             </div>
                             <div>
                                 <h3 class="font-bold text-gray-400 text-sm uppercase tracking-widest mb-1">Visit Us</h3>
-                                <p class="text-xl font-medium">123 Culinary Ave,<br>Flavor Town, FT 90210</p>
+                                <p class="text-lg sm:text-xl font-medium">123 Culinary Ave,<br>Flavor Town, FT 90210</p>
                             </div>
                             <div class="pt-4 flex gap-4">
                                 <a href="#"
@@ -179,23 +178,23 @@ onMounted(() => {
                         </div>
                     </div>
 
-                    <form class="space-y-4 bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100">
-                        <div class="grid grid-cols-2 gap-4">
+                    <form class="space-y-4 bg-white dark:bg-gray-900/80 p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] shadow-xl border border-gray-100 dark:border-gray-800">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div class="space-y-2">
-                                <label class="text-sm font-bold text-gray-900 ml-1">Name</label>
+                                <label class="text-sm font-bold text-gray-900 dark:text-gray-200 ml-1">Name</label>
                                 <input type="text" placeholder="John Cook"
-                                    class="w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500 transition-shadow">
+                                    class="w-full rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-white/5 px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-orange-500 focus:ring-orange-500 transition-shadow">
                             </div>
                             <div class="space-y-2">
-                                <label class="text-sm font-bold text-gray-900 ml-1">Email</label>
+                                <label class="text-sm font-bold text-gray-900 dark:text-gray-200 ml-1">Email</label>
                                 <input type="email" placeholder="john@example.com"
-                                    class="w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500 transition-shadow">
+                                    class="w-full rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-white/5 px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-orange-500 focus:ring-orange-500 transition-shadow">
                             </div>
                         </div>
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-gray-900 ml-1">Message</label>
+                            <label class="text-sm font-bold text-gray-900 dark:text-gray-200 ml-1">Message</label>
                             <textarea rows="4" placeholder="How can we help?"
-                                class="w-full rounded-xl border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500 transition-shadow resize-none"></textarea>
+                                class="w-full rounded-xl border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-white/5 px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-orange-500 focus:ring-orange-500 transition-shadow resize-none"></textarea>
                         </div>
                         <button
                             class="w-full rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-8 py-4 font-bold text-white transition-all hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">
@@ -210,7 +209,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Scroll Reveal Animation */
 .reveal-on-scroll {
     opacity: 0;
     transform: translateY(40px);

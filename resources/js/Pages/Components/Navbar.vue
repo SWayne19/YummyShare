@@ -1,23 +1,24 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { Link, usePage } from "@inertiajs/vue3";
+import { useTheme } from "../../composables/useTheme.js";
+
+const { isDark, toggle: toggleTheme } = useTheme();
 
 const mobileMenuOpen = ref(false);
 const page = usePage();
 const currentPath = computed(() => page.url ?? "/");
 const isHome = computed(() => currentPath.value === "/");
 
-// --- Scroll Logic ---
 const isScrolled = ref(false);
 
 const handleScroll = () => {
-    // Enable scroll detection for ALL pages
     isScrolled.value = window.scrollY > 20;
 };
 
 onMounted(() => {
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial state
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 });
 
 onUnmounted(() => {
@@ -38,77 +39,64 @@ function isActive(path) {
     );
 }
 
-// --- DYNAMIC CLASSES ---
-
-// 1. Navbar Background
-// NOW: Transparent at top for ALL pages. Glass when scrolled for ALL pages.
 const navBgClass = computed(() => {
-    return isScrolled.value
-        ? "ios-glass-scrolled border-b border-white/40"
-        : "bg-transparent border-b border-transparent shadow-none";
+    if (isScrolled.value) {
+        return isDark.value
+            ? "ios-glass-scrolled-dark border-b border-white/10"
+            : "ios-glass-scrolled border-b border-white/40";
+    }
+    return "bg-transparent border-b border-transparent shadow-none";
 });
 
-// 2. Nav Link Colors
 function navLinkClass(linkHref) {
-    // If Scrolled: Always dark text (because glass background is white-ish)
     if (isScrolled.value) {
         return isActive(linkHref)
-            ? "bg-black/80 text-white ios-glass-active shadow-md"
-            : "text-gray-700 hover:bg-white/40 hover:text-orange-600";
+            ? "bg-black/80 dark:bg-white/20 text-white shadow-md"
+            : "text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-white/10 hover:text-orange-600";
     }
 
-    // If NOT Scrolled (Top of page):
     if (isHome.value) {
-        // Home Page = White Text (Overlaying video/hero)
         return isActive(linkHref)
             ? "bg-white/20 text-white shadow-md font-bold"
             : "text-white hover:bg-white/30 hover:text-orange-500";
     } else {
-        // Other Pages = Dark Text (Overlaying white page background)
         return isActive(linkHref)
-            ? "bg-gray-900 text-white ios-glass-active shadow-md"
-            : "text-gray-900 hover:bg-gray-100 hover:text-orange-600";
+            ? "bg-gray-900 dark:bg-white/20 text-white shadow-md"
+            : "text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-orange-600";
     }
 }
 
-// 3. Logo Text Color
 const logoTextClass = computed(() => {
-    if (isScrolled.value) return "text-gray-900"; // Scrolled = Dark
-    return isHome.value ? "text-white" : "text-gray-900"; // Top: Home=White, Others=Dark
+    if (isScrolled.value) return "text-gray-900 dark:text-white";
+    return isHome.value ? "text-white" : "text-gray-900 dark:text-white";
 });
 
-// 4. Share Recipe Button
 function shareRecipeClass() {
     if (isScrolled.value) {
-        return "bg-white/60 text-gray-900 ios-glass-action hover:bg-white/90 border border-white/40 backdrop-blur-[12px]";
+        return isDark.value
+            ? "bg-white/10 text-white hover:bg-white/20 border border-white/20 backdrop-blur-[12px]"
+            : "bg-white/60 text-gray-900 hover:bg-white/90 border border-white/40 backdrop-blur-[12px]";
     }
-
     if (isHome.value) {
         return "bg-white/20 text-white hover:bg-white/30 border border-white/30";
-    } else {
-        return "bg-orange-500 text-white hover:bg-orange-600 border border-orange-600";
     }
+    return "bg-orange-500 text-white hover:bg-orange-600 border border-orange-600";
 }
 
 function shareRecipeIconClass() {
-    if (isScrolled.value) return "text-orange-500"; // Scrolled
-
-    // Top of page
+    if (isScrolled.value) return isDark.value ? "text-orange-400" : "text-orange-500";
     return isHome.value ? "text-orange-300" : "text-white";
 }
 
-// 5. Mobile Menu Button
 function menuButtonClass() {
-    if (isScrolled.value) return "text-gray-900 hover:bg-white/65";
-    return isHome.value ? "text-white hover:bg-white/20" : "text-gray-900 hover:bg-gray-100";
+    if (isScrolled.value) return "text-gray-900 dark:text-white hover:bg-white/65 dark:hover:bg-white/10";
+    return isHome.value ? "text-white hover:bg-white/20" : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-white/10";
 }
 
-// Mobile helpers
-function mobileNavLinkClass() {
-    return "block rounded-lg px-4 py-3 text-base font-bold text-gray-900 hover:bg-orange-100 hover:text-orange-700 transition-colors duration-200 ios-glass-link";
-}
-function mobileShareRecipeClass() {
-    return "flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-4 py-3 text-base font-bold text-white active:bg-orange-700 hover:bg-orange-600 shadow-md ios-glass-action transition-all";
+function themeButtonClass() {
+    if (isScrolled.value) return "text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-white/10";
+    if (isHome.value) return "text-white hover:bg-white/20";
+    return "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-white/10";
 }
 
 const toggleMenu = () => (mobileMenuOpen.value = !mobileMenuOpen.value);
@@ -126,10 +114,10 @@ const closeMenu = () => (mobileMenuOpen.value = false);
             <div class="flex items-center gap-8">
                 <Link href="/" class="flex items-center gap-2.5 group">
                     <span :class="[
-                        'text-xl font-extrabold tracking-tight glassy-text transition-colors',
+                        'text-xl font-extrabold tracking-tight glassy-text transition-colors duration-300',
                         logoTextClass
                     ]">
-                        Yummy<span class="text-orange-600">Share</span>
+                        Yummy<span class="text-orange-600 dark:text-orange-500">Share</span>
                     </span>
                 </Link>
 
@@ -143,7 +131,22 @@ const closeMenu = () => (mobileMenuOpen.value = false);
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Theme Toggle -->
+                <button @click="toggleTheme" :class="[
+                    'rounded-full p-2.5 transition-all duration-300',
+                    themeButtonClass()
+                ]" :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
+                    <!-- Sun icon (shown in dark mode) -->
+                    <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+                    </svg>
+                    <!-- Moon icon (shown in light mode) -->
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+
                 <Link :href="route('recipes.create')" :class="[
                     'hidden sm:flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold shadow group transition-all hover:-translate-y-0.5',
                     shareRecipeClass()
@@ -158,7 +161,7 @@ const closeMenu = () => (mobileMenuOpen.value = false);
                 </Link>
 
                 <button @click="toggleMenu" :class="[
-                    'md:hidden rounded-lg p-2 transition ios-glass-action',
+                    'md:hidden rounded-lg p-2 transition',
                     menuButtonClass()
                 ]">
                     <svg v-if="!mobileMenuOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -183,12 +186,23 @@ const closeMenu = () => (mobileMenuOpen.value = false);
             class="fixed inset-x-0 top-20 z-40 border-b px-4 pb-6 pt-2 shadow-2xl md:hidden ios-glass-navmenu">
             <nav class="flex flex-col gap-2">
                 <Link v-for="link in navLinks" :key="link.href" :href="link.href" @click="closeMenu"
-                    :class="mobileNavLinkClass()">
-                    <span class="text-gray-900">{{ link.name }}</span>
+                    class="block rounded-lg px-4 py-3 text-base font-bold text-gray-900 dark:text-gray-100 hover:bg-orange-100 dark:hover:bg-orange-900/30 hover:text-orange-700 dark:hover:text-orange-400 transition-colors duration-200 ios-glass-link">
+                    <span>{{ link.name }}</span>
                 </Link>
-                <hr class="my-2 border-white/20">
-                <Link :href="route('recipes.create')" @click="closeMenu" :class="mobileShareRecipeClass()">
-                    <span class="text-white">+ Share Recipe</span>
+                <hr class="my-2 border-white/20 dark:border-white/10">
+                <button @click="toggleTheme"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-100 dark:bg-white/10 px-4 py-3 text-base font-bold text-gray-700 dark:text-gray-200 transition-all">
+                    <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z" />
+                    </svg>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z" clip-rule="evenodd" />
+                    </svg>
+                    {{ isDark ? 'Light Mode' : 'Dark Mode' }}
+                </button>
+                <Link :href="route('recipes.create')" @click="closeMenu"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-orange-500 px-4 py-3 text-base font-bold text-white active:bg-orange-700 hover:bg-orange-600 shadow-md transition-all">
+                    <span>+ Share Recipe</span>
                 </Link>
             </nav>
         </div>
@@ -196,13 +210,22 @@ const closeMenu = () => (mobileMenuOpen.value = false);
 </template>
 
 <style scoped>
-/* Glass Effect (Applied when scrolled) */
 .ios-glass-scrolled {
     background: rgba(255, 255, 255, 0.65);
     box-shadow:
         0 2px 10px rgba(0, 0, 0, 0.08),
         0 6px 36px 4px rgba(0, 0, 0, 0.14),
         0 1.5px 8px 1.5px rgba(249, 115, 22, 0.08);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.ios-glass-scrolled-dark {
+    background: rgba(15, 15, 25, 0.75);
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.3),
+        0 6px 36px 4px rgba(0, 0, 0, 0.4),
+        0 1.5px 8px 1.5px rgba(249, 115, 22, 0.1);
     backdrop-filter: blur(30px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
@@ -214,21 +237,19 @@ const closeMenu = () => (mobileMenuOpen.value = false);
     backdrop-filter: blur(20px);
 }
 
+:where(.dark) .ios-glass-navmenu {
+    background: rgba(15, 15, 25, 0.92);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
 .ios-glass-link {
     background: rgba(255, 255, 255, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.ios-glass-active {
-    background: #111 !important;
-    color: white !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.ios-glass-action {
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+:where(.dark) .ios-glass-link {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .glassy-text {
