@@ -169,18 +169,18 @@ const deleteCategory = (category) => {
                             <input v-model="form.image" type="text" required placeholder="https://..."
                                 class="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 py-2.5 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500" />
                             <p v-if="form.errors.image" class="text-red-500 text-xs">{{ form.errors.image }}</p>
-                            <div v-if="form.image" class="mt-2 h-32 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
+                            <div v-if="form.image" class="mt-2 h-24 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800">
                                 <img :src="form.image" alt="Preview" class="h-full w-full object-cover" />
                             </div>
                         </div>
 
                         <div class="flex gap-3 pt-2">
                             <button type="button" @click="showModal = false"
-                                class="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                                class="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-2.5 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                                 Cancel
                             </button>
                             <button type="submit" :disabled="form.processing"
-                                class="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-3 text-sm font-bold text-white hover:shadow-lg transition-all disabled:opacity-70">
+                                class="flex-1 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2.5 text-sm font-bold text-white hover:shadow-lg transition-all disabled:opacity-70">
                                 {{ form.processing ? 'Saving...' : (editingCategory ? 'Update' : 'Create') }}
                             </button>
                         </div>

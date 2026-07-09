@@ -53,16 +53,16 @@ const getMainImage = (recipe) => {
     <AdminLayout>
         <div class="space-y-6">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">Recipes</h1>
+                <h1 class="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">Recipes</h1>
                 <p class="text-gray-500 dark:text-gray-400 mt-1">Review and manage submitted recipes</p>
             </div>
 
             <!-- Filters -->
             <div class="flex flex-col sm:flex-row gap-3">
                 <input v-model="search" type="text" placeholder="Search recipes..."
-                    class="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all" />
+                    class="flex-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2.5 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all" />
                 <select v-model="statusFilter"
-                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-4 py-3 text-sm text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500">
+                    class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2.5 text-sm text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500">
                     <option value="">All Status</option>
                     <option value="pending">Pending</option>
                     <option value="approved">Approved</option>
@@ -76,7 +76,7 @@ const getMainImage = (recipe) => {
                     class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
                     <div class="flex flex-col sm:flex-row">
                         <!-- Image -->
-                        <div class="sm:w-48 h-40 sm:h-auto bg-gray-100 dark:bg-gray-800 flex-shrink-0">
+                        <div class="sm:w-40 h-32 sm:h-auto bg-gray-100 dark:bg-gray-800 flex-shrink-0">
                             <img v-if="getMainImage(recipe)" :src="getMainImage(recipe)" :alt="recipe.title" loading="lazy"
                                 class="h-full w-full object-cover" />
                             <div v-else class="h-full w-full flex items-center justify-center text-gray-400 dark:text-gray-600 text-sm">
@@ -85,10 +85,10 @@ const getMainImage = (recipe) => {
                         </div>
 
                         <!-- Content -->
-                        <div class="flex-1 p-5 sm:p-6 flex flex-col justify-between gap-4">
+                        <div class="flex-1 p-4 sm:p-5 flex flex-col justify-between gap-4">
                             <div>
                                 <div class="flex flex-wrap items-start gap-2 mb-2">
-                                    <h3 class="font-bold text-gray-900 dark:text-white text-lg flex-1 min-w-0">{{ recipe.title }}</h3>
+                                    <h3 class="font-bold text-gray-900 dark:text-white text-base flex-1 min-w-0">{{ recipe.title }}</h3>
                                     <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold capitalize flex-shrink-0"
                                         :class="statusColors[recipe.status]">
                                         {{ recipe.status }}
