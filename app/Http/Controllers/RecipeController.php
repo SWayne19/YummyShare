@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -14,7 +15,7 @@ class RecipeController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Recipe::with(['category', 'images'])->latest();
+        $query = Recipe::with(['category', 'images'])->approved()->latest();
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -45,6 +46,7 @@ class RecipeController extends Controller
             'filters' => $request->only(['search', 'category', 'difficulty', 'max_time']),
         ]);
     }
+
     public function create()
     {
         $categories = Category::select('id', 'name')->get();
@@ -55,6 +57,14 @@ class RecipeController extends Controller
 
     public function show(Recipe $recipe)
     {
+        // Only allow viewing approved recipes (or own recipes, or admin)
+        $user = Auth::user();
+        if ($recipe->status !== 'approved') {
+            if (!$user || ($recipe->user_id !== $user->id && !$user->isAdmin())) {
+                abort(404);
+            }
+        }
+
         $recipe->load([
             'category',
             'images',
@@ -81,23 +91,21 @@ class RecipeController extends Controller
             'servings' => 'required|integer|min:1',
             'difficulty' => 'required|in:easy,medium,hard',
             'instructions' => 'required|string',
-
-            // Validate Array of Ingredients
             'ingredients' => 'required|array|min:1',
             'ingredients.*.name' => 'required|string|max:255',
             'ingredients.*.quantity' => 'nullable|string|max:50',
             'ingredients.*.unit' => 'nullable|string|max:50',
-
-            // Validate Images
             'images' => 'required|array|min:1',
             'images.*' => 'image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
         try {
             DB::transaction(function () use ($validated, $request) {
+                $user = Auth::user();
+                $isAdmin = $user && $user->isAdmin();
 
-                // 1. Create the Recipe
                 $recipe = Recipe::create([
+                    'user_id' => $user->id,
                     'category_id' => $validated['category_id'],
                     'title' => $validated['title'],
                     'slug' => Str::slug($validated['title']) . '-' . uniqid(),
@@ -106,36 +114,37 @@ class RecipeController extends Controller
                     'servings' => $validated['servings'],
                     'difficulty' => $validated['difficulty'],
                     'instructions' => $validated['instructions'],
+                    'status' => $isAdmin ? 'approved' : 'pending',
                 ]);
 
-                // 2. Handle Ingredients (FirstOrCreate logic)
                 foreach ($validated['ingredients'] as $ing) {
-                    // Find existing ingredient or create new one
                     $ingredient = Ingredient::firstOrCreate(
                         ['name' => strtolower(trim($ing['name']))]
                     );
 
-                    // Attach to pivot table
                     $recipe->ingredients()->attach($ingredient->id, [
                         'quantity' => $ing['quantity'],
                         'unit' => $ing['unit']
                     ]);
                 }
 
-                // 3. Handle Images
                 if ($request->hasFile('images')) {
                     foreach ($request->file('images') as $index => $file) {
                         $path = $file->store('recipes', 'public');
 
                         $recipe->images()->create([
                             'image_path' => '/storage/' . $path,
-                            'is_main' => $index === 0 // First image is main
+                            'is_main' => $index === 0
                         ]);
                     }
                 }
             });
 
-            return redirect()->route('recipes.index')->with('success', 'Recipe created successfully!');
+            $message = Auth::user()->isAdmin()
+                ? 'Recipe published successfully!'
+                : 'Recipe submitted for review! It will appear after admin approval.';
+
+            return redirect()->route('recipes.index')->with('success', $message);
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Failed to create recipe: ' . $e->getMessage()]);
         }

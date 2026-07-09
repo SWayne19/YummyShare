@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Recipe extends Model
 {
     protected $fillable = [
+        'user_id',
         'category_id',
         'title',
         'slug',
@@ -15,8 +17,19 @@ class Recipe extends Model
         'servings',
         'difficulty',
         'instructions',
-        'is_published'
+        'is_published',
+        'status',
     ];
+
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('status', 'approved');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function images()
     {
