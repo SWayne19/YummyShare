@@ -263,15 +263,15 @@ onMounted(() => {
 
             <!-- CTA Section -->
             <section class="py-16 sm:py-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 reveal-on-scroll">
-                <div class="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-gray-900 px-6 py-12 sm:py-16 text-center shadow-2xl sm:px-12">
-                    <div class="absolute top-0 left-0 -mt-10 h-64 w-64 rounded-full bg-orange-500/20 blur-[100px]"></div>
-                    <div class="absolute bottom-0 right-0 -mb-10 h-64 w-64 rounded-full bg-red-500/20 blur-[100px]"></div>
+                <div class="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-orange-50 dark:bg-gray-900 px-6 py-12 sm:py-16 text-center shadow-2xl sm:px-12 border border-orange-100 dark:border-gray-800">
+                    <div class="absolute top-0 left-0 -mt-10 h-64 w-64 rounded-full bg-orange-500/15 dark:bg-orange-500/20 blur-[100px]"></div>
+                    <div class="absolute bottom-0 right-0 -mb-10 h-64 w-64 rounded-full bg-red-500/15 dark:bg-red-500/20 blur-[100px]"></div>
 
                     <div class="relative z-10">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-gray-900 dark:text-white">
                             Got a Secret Recipe?
                         </h2>
-                        <p class="mx-auto mt-4 sm:mt-5 max-w-xl text-base sm:text-lg text-gray-300 leading-relaxed">
+                        <p class="mx-auto mt-4 sm:mt-5 max-w-xl text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                             Share your culinary masterpiece with thousands of foodies. Build your profile and inspire
                             others to cook.
                         </p>
@@ -281,7 +281,7 @@ onMounted(() => {
                                 Start Sharing
                             </Link>
                             <Link href="/aboutus"
-                                class="inline-flex items-center justify-center rounded-xl bg-white/10 px-7 py-3 text-base font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20">
+                                class="inline-flex items-center justify-center rounded-xl bg-gray-900 dark:bg-white/10 px-7 py-3 text-base font-bold text-white backdrop-blur-sm transition-all hover:bg-gray-800 dark:hover:bg-white/20">
                                 Learn More
                             </Link>
                         </div>
