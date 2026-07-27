@@ -123,7 +123,7 @@ const submit = () => {
                         <div class="space-y-2">
                             <label class="font-bold text-gray-700 dark:text-gray-200 ml-1">Recipe Title</label>
                             <input v-model="form.title" type="text" placeholder="e.g. Grandma's Apple Pie"
-                                class="glass-input w-full text-xl font-bold"
+                                class="glass-input w-full text-base font-bold"
                                 :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.title }">
                             <div v-if="form.errors.title" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{ form.errors.title }}
                             </div>
@@ -169,7 +169,7 @@ const submit = () => {
                                 <label class="font-bold text-gray-700 dark:text-gray-200 ml-1 text-sm uppercase tracking-wide">Cook Time
                                     (min)</label>
                                 <input v-model="form.cook_time" type="number"
-                                    class="glass-input w-full text-center font-black text-xl sm:text-2xl h-16 sm:h-20"
+                                    class="glass-input w-full text-center font-bold text-base sm:text-lg"
                                     :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.cook_time }">
                                 <div v-if="form.errors.cook_time" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{
                                     form.errors.cook_time }}</div>
@@ -178,7 +178,7 @@ const submit = () => {
                                 <label
                                     class="font-bold text-gray-700 dark:text-gray-200 ml-1 text-sm uppercase tracking-wide">Servings</label>
                                 <input v-model="form.servings" type="number"
-                                    class="glass-input w-full text-center font-black text-xl sm:text-2xl h-16 sm:h-20"
+                                    class="glass-input w-full text-center font-bold text-base sm:text-lg"
                                     :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.servings }">
                                 <div v-if="form.errors.servings" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{
                                     form.errors.servings }}</div>
@@ -243,8 +243,8 @@ const submit = () => {
                         class="space-y-5 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-[2rem] bg-white/70 dark:bg-gray-900/70 border border-white/60 dark:border-gray-800 shadow-xl backdrop-blur-2xl">
                         <div class="space-y-2">
                             <label class="font-bold text-gray-700 dark:text-gray-200 ml-1">Instructions</label>
-                            <textarea v-model="form.instructions" rows="6"
-                                class="glass-input w-full resize-none leading-relaxed text-base sm:text-lg"
+                            <textarea v-model="form.instructions" rows="5"
+                                class="glass-input w-full resize-none leading-relaxed text-sm sm:text-base"
                                 placeholder="Step 1: Preheat the oven..."
                                 :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.instructions }"></textarea>
                             <div v-if="form.errors.instructions" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{
@@ -256,7 +256,7 @@ const submit = () => {
                             <div class="relative group cursor-pointer">
                                 <input type="file" multiple @change="handleImageUpload"
                                     class="absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer">
-                                <div class="border-3 border-dashed border-gray-300/60 dark:border-gray-600/60 rounded-3xl p-5 sm:p-7 text-center bg-white/40 dark:bg-white/5 transition-all group-hover:bg-orange-50/50 dark:group-hover:bg-orange-950/20 group-hover:border-orange-300 dark:group-hover:border-orange-700 group-hover:scale-[1.01]"
+                                <div class="border-2 border-dashed border-gray-300/60 dark:border-gray-600/60 rounded-xl p-4 sm:p-5 text-center bg-white/40 dark:bg-white/5 transition-all group-hover:bg-orange-50/50 dark:group-hover:bg-orange-950/20 group-hover:border-orange-300 dark:group-hover:border-orange-700 group-hover:scale-[1.01]"
                                     :class="{ 'border-red-400 bg-red-50 dark:bg-red-950/20': form.errors.images }">
                                     <div class="flex flex-col items-center gap-3">
                                         <div
