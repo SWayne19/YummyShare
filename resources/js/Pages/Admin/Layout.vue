@@ -34,7 +34,12 @@ function isActive(href) {
     return currentPath.value.startsWith(href);
 }
 
-const logout = () => router.post('/logout');
+const showSignOutModal = ref(false);
+
+const signOut = () => {
+    showSignOutModal.value = false;
+    router.post('/logout');
+};
 </script>
 
 <template>
@@ -121,12 +126,12 @@ const logout = () => router.post('/logout');
                     </div>
                 </div>
 
-                <button @click="logout"
+                <button @click="showSignOutModal = true"
                     class="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                     </svg>
-                    Logout
+                    Sign Out
                 </button>
             </div>
         </aside>
@@ -168,5 +173,42 @@ const logout = () => router.post('/logout');
                 <slot />
             </main>
         </div>
+
+        <!-- Sign Out Confirmation Modal -->
+        <teleport to="body">
+            <transition enter-active-class="transition duration-200 ease-out" enter-from-class="opacity-0"
+                enter-to-class="opacity-100" leave-active-class="transition duration-150 ease-in"
+                leave-from-class="opacity-100" leave-to-class="opacity-0">
+                <div v-if="showSignOutModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="showSignOutModal = false"></div>
+                    <transition enter-active-class="transition duration-200 ease-out"
+                        enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                        leave-active-class="transition duration-150 ease-in"
+                        leave-from-class="transform scale-100 opacity-100"
+                        leave-to-class="transform scale-95 opacity-0">
+                        <div v-if="showSignOutModal"
+                            class="relative w-full max-w-sm rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl p-6 text-center">
+                            <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-950/50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Sign Out</h3>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Are you sure you want to sign out?</p>
+                            <div class="flex gap-3">
+                                <button @click="showSignOutModal = false"
+                                    class="flex-1 rounded-xl px-4 py-2.5 text-sm font-bold text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                                    Cancel
+                                </button>
+                                <button @click="signOut"
+                                    class="flex-1 rounded-xl px-4 py-2.5 text-sm font-bold text-white bg-red-600 hover:bg-red-700 transition-colors shadow-lg shadow-red-500/25">
+                                    Sign Out
+                                </button>
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+            </transition>
+        </teleport>
     </div>
 </template>
