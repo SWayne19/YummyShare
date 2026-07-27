@@ -62,7 +62,7 @@ onMounted(() => {
                 </p>
             </section>
 
-            <section class="relative w-full bg-gray-900 py-16 overflow-hidden">
+            <section class="relative w-full bg-orange-50 dark:bg-gray-900 py-16 overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                     <div class="absolute top-1/4 left-0 h-96 w-96 rounded-full bg-orange-500/10 blur-[100px]"></div>
                     <div class="absolute bottom-1/4 right-0 h-96 w-96 rounded-full bg-red-500/10 blur-[100px]"></div>
@@ -70,13 +70,13 @@ onMounted(() => {
 
                 <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="text-center mb-10 reveal-on-scroll">
-                        <h2 class="text-2xl font-black text-white sm:text-3xl">Our Journey</h2>
-                        <p class="mt-4 text-base sm:text-lg text-gray-400">From a WhatsApp group to a global kitchen.</p>
+                        <h2 class="text-2xl font-black text-gray-900 dark:text-white sm:text-3xl">Our Journey</h2>
+                        <p class="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-400">From a WhatsApp group to a global kitchen.</p>
                     </div>
 
                     <div class="relative">
                         <div
-                            class="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 via-red-500 to-gray-800 md:-ml-0.5 rounded-full">
+                            class="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-500 via-red-500 to-orange-200 dark:to-gray-800 md:-ml-0.5 rounded-full">
                         </div>
 
                         <div class="space-y-8">
@@ -86,19 +86,19 @@ onMounted(() => {
                                 <div class="w-full md:w-1/2 pl-20 md:pl-0 md:pr-16"
                                     :class="{ 'md:!pl-16 md:!pr-0': index % 2 !== 0 }">
                                     <div
-                                        class="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 shadow-xl">
+                                        class="bg-white border border-orange-100 dark:bg-white/5 dark:border-white/10 backdrop-blur-md rounded-2xl p-4 sm:p-6 hover:bg-orange-50 dark:hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 shadow-xl">
                                         <span
-                                            class="inline-block px-3 py-1 mb-3 text-xs font-bold tracking-wider text-orange-400 uppercase bg-orange-500/10 rounded-lg border border-orange-500/20">
+                                            class="inline-block px-3 py-1 mb-3 text-xs font-bold tracking-wider text-orange-600 dark:text-orange-400 uppercase bg-orange-500/10 rounded-lg border border-orange-500/20">
                                             {{ milestone.year }}
                                         </span>
-                                        <h3 class="text-lg sm:text-xl font-bold text-white mb-3">{{ milestone.title }}</h3>
-                                        <p class="text-gray-400 leading-relaxed text-sm sm:text-base">{{ milestone.description }}</p>
+                                        <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3">{{ milestone.title }}</h3>
+                                        <p class="text-gray-600 dark:text-gray-400 leading-relaxed text-sm sm:text-base">{{ milestone.description }}</p>
                                     </div>
                                 </div>
 
                                 <div
-                                    class="absolute left-8 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-gray-900 border-4 border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.5)] z-10">
-                                    <div class="w-2.5 h-2.5 bg-white rounded-full"></div>
+                                    class="absolute left-8 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-white dark:bg-gray-900 border-4 border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.5)] z-10">
+                                    <div class="w-2.5 h-2.5 bg-orange-500 dark:bg-white rounded-full"></div>
                                 </div>
 
                                 <div class="hidden md:block md:w-1/2"></div>
