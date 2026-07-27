@@ -46,7 +46,6 @@ onMounted(() => {
 
                 <div class="relative z-10 mx-auto max-w-4xl text-center px-4 pt-14">
                     <div class="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-4 py-1.5 mb-6">
-                        <span class="h-2 w-2 rounded-full bg-orange-500 animate-pulse"></span>
                         <span class="text-sm font-semibold text-white/90">Join thousands of home cooks worldwide</span>
                     </div>
 
