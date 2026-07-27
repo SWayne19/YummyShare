@@ -131,7 +131,7 @@ const submit = () => {
 
                         <div class="space-y-2">
                             <label class="font-bold text-gray-700 dark:text-gray-200 ml-1">Chef Name</label>
-                            <input v-model="form.author_name" type="text" placeholder="Your Name"
+                            <input v-model="form.author_name" type="text" placeholder="e.g. Chef Maria"
                                 class="glass-input w-full"
                                 :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.author_name }">
                             <div v-if="form.errors.author_name" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{
@@ -168,7 +168,7 @@ const submit = () => {
                             <div class="space-y-2">
                                 <label class="font-bold text-gray-700 dark:text-gray-200 ml-1 text-sm uppercase tracking-wide">Cook Time
                                     (min)</label>
-                                <input v-model="form.cook_time" type="number"
+                                <input v-model="form.cook_time" type="number" placeholder="e.g. 45"
                                     class="glass-input w-full text-center font-bold text-base sm:text-lg"
                                     :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.cook_time }">
                                 <div v-if="form.errors.cook_time" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{
@@ -177,7 +177,7 @@ const submit = () => {
                             <div class="space-y-2">
                                 <label
                                     class="font-bold text-gray-700 dark:text-gray-200 ml-1 text-sm uppercase tracking-wide">Servings</label>
-                                <input v-model="form.servings" type="number"
+                                <input v-model="form.servings" type="number" placeholder="e.g. 4"
                                     class="glass-input w-full text-center font-bold text-base sm:text-lg"
                                     :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.servings }">
                                 <div v-if="form.errors.servings" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{
@@ -213,17 +213,17 @@ const submit = () => {
                                     class="flex gap-2 sm:gap-3 items-center group mb-3">
                                     <div class="grid grid-cols-12 gap-2 sm:gap-3 flex-1">
                                         <div class="col-span-3">
-                                            <input v-model="ingredient.quantity" placeholder="Qty"
+                                            <input v-model="ingredient.quantity" placeholder="e.g. 2"
                                                 class="glass-input w-full text-center bg-white/80 dark:bg-white/5"
                                                 :class="{ 'ring-2 ring-red-500': form.errors[`ingredients.${index}.quantity`] }">
                                         </div>
                                         <div class="col-span-3">
-                                            <input v-model="ingredient.unit" placeholder="Unit"
+                                            <input v-model="ingredient.unit" placeholder="e.g. cups"
                                                 class="glass-input w-full text-center bg-white/80 dark:bg-white/5"
                                                 :class="{ 'ring-2 ring-red-500': form.errors[`ingredients.${index}.unit`] }">
                                         </div>
                                         <div class="col-span-6">
-                                            <input v-model="ingredient.name" placeholder="Item Name"
+                                            <input v-model="ingredient.name" placeholder="e.g. All-purpose flour"
                                                 class="glass-input w-full bg-white/80 dark:bg-white/5"
                                                 :class="{ 'ring-2 ring-red-500': form.errors[`ingredients.${index}.name`] }">
                                         </div>
@@ -245,7 +245,7 @@ const submit = () => {
                             <label class="font-bold text-gray-700 dark:text-gray-200 ml-1">Instructions</label>
                             <textarea v-model="form.instructions" rows="5"
                                 class="glass-input w-full resize-none leading-relaxed text-sm sm:text-base"
-                                placeholder="Step 1: Preheat the oven..."
+                                placeholder="e.g. Step 1: Preheat oven to 180°C (350°F)&#10;Step 2: Mix flour, sugar, and butter&#10;Step 3: Bake for 25 minutes until golden"
                                 :class="{ 'ring-2 ring-red-500 bg-red-50 dark:bg-red-950/30': form.errors.instructions }"></textarea>
                             <div v-if="form.errors.instructions" class="text-red-500 dark:text-red-400 text-sm ml-1 mt-1">{{
                                 form.errors.instructions }}</div>
@@ -268,7 +268,9 @@ const submit = () => {
                                             </svg>
                                         </div>
                                         <p class="text-gray-500 dark:text-gray-400 font-medium text-base sm:text-lg" v-if="form.images.length === 0">
-                                            Drop photos here</p>
+                                            Drop photos here or click to browse</p>
+                                        <p class="text-gray-400 dark:text-gray-500 text-xs mt-1" v-if="form.images.length === 0">
+                                            JPG, PNG or WebP — max 2MB each</p>
                                         <p class="text-orange-600 dark:text-orange-400 font-bold text-lg sm:text-xl" v-else>{{ form.images.length }}
                                             files selected</p>
                                     </div>

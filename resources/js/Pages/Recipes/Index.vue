@@ -114,126 +114,119 @@ const visibleRecipes = computed(() => props.recipes?.data || []);
                 </p>
             </section>
 
-            <!-- Compact Filter Bar -->
+            <!-- One-line Filter Bar -->
             <section class="relative z-20">
-                <div class="bg-white dark:bg-gray-900/80 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm p-3 space-y-3">
+                <div class="bg-white dark:bg-gray-900/80 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm px-3 py-2">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2">
 
-                    <!-- Search -->
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                        <input v-model="search" type="text" placeholder="Search recipes, ingredients, or chefs..."
-                            class="block w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-white focus:bg-white dark:focus:bg-white/10 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500" />
-                    </div>
-
-                    <!-- Filter Row -->
-                    <div class="flex flex-wrap items-center gap-2">
-
-                        <!-- Category Combobox -->
-                        <div class="relative" ref="categoryRef">
-                            <button @click="categoryOpen = !categoryOpen; difficultyOpen = false"
-                                class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all cursor-pointer"
-                                :class="selectedCategory
-                                    ? 'bg-orange-50 dark:bg-orange-950/40 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300'
-                                    : 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
-                                </svg>
-                                {{ selectedCategoryName || 'Category' }}
-                                <svg class="w-3 h-3 transition-transform" :class="{ 'rotate-180': categoryOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            <transition enter-active-class="transition duration-100 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100"
-                                leave-active-class="transition duration-75 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
-                                <div v-if="categoryOpen"
-                                    class="absolute left-0 mt-1.5 w-56 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl z-50 overflow-hidden">
-                                    <div class="p-2 border-b border-gray-100 dark:border-gray-800">
-                                        <input v-model="categorySearch" type="text" placeholder="Search categories..."
-                                            class="w-full px-2.5 py-1.5 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-orange-500/30 focus:border-orange-500" />
-                                    </div>
-                                    <ul class="max-h-48 overflow-auto p-1">
-                                        <li @click="selectCategory('')"
-                                            class="px-3 py-1.5 text-sm rounded-lg cursor-pointer transition-colors"
-                                            :class="!selectedCategory ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
-                                            All Categories
-                                        </li>
-                                        <li v-for="cat in filteredCategories" :key="cat.id" @click="selectCategory(cat.id)"
-                                            class="px-3 py-1.5 text-sm rounded-lg cursor-pointer transition-colors"
-                                            :class="selectedCategory == cat.id ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
-                                            {{ cat.name }}
-                                        </li>
-                                        <li v-if="filteredCategories.length === 0" class="px-3 py-2 text-sm text-gray-400 dark:text-gray-500 italic">
-                                            No categories found
-                                        </li>
-                                    </ul>
-                                </div>
-                            </transition>
-                        </div>
-
-                        <!-- Difficulty Combobox -->
-                        <div class="relative" ref="difficultyRef">
-                            <button @click="difficultyOpen = !difficultyOpen; categoryOpen = false"
-                                class="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all cursor-pointer"
-                                :class="selectedDifficulty
-                                    ? 'bg-orange-50 dark:bg-orange-950/40 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300'
-                                    : 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                                </svg>
-                                {{ selectedDifficultyLabel || 'Difficulty' }}
-                                <svg class="w-3 h-3 transition-transform" :class="{ 'rotate-180': difficultyOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-
-                            <transition enter-active-class="transition duration-100 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100"
-                                leave-active-class="transition duration-75 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
-                                <div v-if="difficultyOpen"
-                                    class="absolute left-0 mt-1.5 w-44 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl z-50 overflow-hidden">
-                                    <ul class="p-1">
-                                        <li @click="selectDifficulty('')"
-                                            class="px-3 py-1.5 text-sm rounded-lg cursor-pointer transition-colors"
-                                            :class="!selectedDifficulty ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
-                                            Any Difficulty
-                                        </li>
-                                        <li v-for="diff in difficulties" :key="diff.id" @click="selectDifficulty(diff.id)"
-                                            class="px-3 py-1.5 text-sm rounded-lg cursor-pointer transition-colors flex items-center gap-2"
-                                            :class="selectedDifficulty === diff.id ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
-                                            <span class="h-1.5 w-1.5 rounded-full"
-                                                :class="{ 'bg-green-500': diff.id === 'easy', 'bg-orange-500': diff.id === 'medium', 'bg-red-500': diff.id === 'hard' }"></span>
-                                            {{ diff.label }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </transition>
-                        </div>
-
-                        <!-- Max Time -->
-                        <div class="relative flex items-center">
-                            <div class="absolute left-2.5 pointer-events-none">
-                                <svg class="h-3.5 w-3.5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        <!-- Search -->
+                        <div class="relative flex-1 min-w-0">
+                            <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </div>
-                            <input v-model="maxTime" type="number" min="1" placeholder="Max min"
-                                class="w-24 pl-8 pr-2 py-1.5 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 font-medium" />
+                            <input v-model="search" type="text" placeholder="Search recipes..."
+                                class="block w-full pl-8 pr-3 py-1.5 bg-transparent border-none text-sm text-gray-900 dark:text-white focus:ring-0 focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-500" />
                         </div>
 
-                        <!-- Spacer -->
-                        <div class="flex-1"></div>
+                        <!-- Divider (desktop) -->
+                        <div class="hidden sm:block w-px h-5 bg-gray-200 dark:bg-gray-700"></div>
 
-                        <!-- Active filter indicator & Clear -->
-                        <div class="flex items-center gap-2">
-                            <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 scale-90" enter-to-class="opacity-100 scale-100"
-                                leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-90">
+                        <!-- Filters -->
+                        <div class="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+
+                            <!-- Category -->
+                            <div class="relative flex-shrink-0" ref="categoryRef">
+                                <button @click="categoryOpen = !categoryOpen; difficultyOpen = false"
+                                    class="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all whitespace-nowrap"
+                                    :class="selectedCategory
+                                        ? 'bg-orange-50 dark:bg-orange-950/40 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300'
+                                        : 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'">
+                                    {{ selectedCategoryName || 'Category' }}
+                                    <svg class="w-3 h-3 transition-transform" :class="{ 'rotate-180': categoryOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <transition enter-active-class="transition duration-100 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100"
+                                    leave-active-class="transition duration-75 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+                                    <div v-if="categoryOpen"
+                                        class="absolute left-0 mt-1.5 w-52 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl z-50 overflow-hidden">
+                                        <div class="p-1.5 border-b border-gray-100 dark:border-gray-800">
+                                            <input v-model="categorySearch" type="text" placeholder="Search..."
+                                                class="w-full px-2 py-1 text-xs bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-gray-700 rounded-md text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-orange-500/30 focus:border-orange-500" />
+                                        </div>
+                                        <ul class="max-h-44 overflow-auto p-1">
+                                            <li @click="selectCategory('')"
+                                                class="px-2.5 py-1.5 text-xs rounded-md cursor-pointer transition-colors"
+                                                :class="!selectedCategory ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
+                                                All Categories
+                                            </li>
+                                            <li v-for="cat in filteredCategories" :key="cat.id" @click="selectCategory(cat.id)"
+                                                class="px-2.5 py-1.5 text-xs rounded-md cursor-pointer transition-colors"
+                                                :class="selectedCategory == cat.id ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
+                                                {{ cat.name }}
+                                            </li>
+                                            <li v-if="filteredCategories.length === 0" class="px-2.5 py-1.5 text-xs text-gray-400 dark:text-gray-500 italic">
+                                                No results
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </transition>
+                            </div>
+
+                            <!-- Difficulty -->
+                            <div class="relative flex-shrink-0" ref="difficultyRef">
+                                <button @click="difficultyOpen = !difficultyOpen; categoryOpen = false"
+                                    class="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all whitespace-nowrap"
+                                    :class="selectedDifficulty
+                                        ? 'bg-orange-50 dark:bg-orange-950/40 border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300'
+                                        : 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'">
+                                    {{ selectedDifficultyLabel || 'Difficulty' }}
+                                    <svg class="w-3 h-3 transition-transform" :class="{ 'rotate-180': difficultyOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <transition enter-active-class="transition duration-100 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100"
+                                    leave-active-class="transition duration-75 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+                                    <div v-if="difficultyOpen"
+                                        class="absolute left-0 mt-1.5 w-36 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-xl z-50 overflow-hidden">
+                                        <ul class="p-1">
+                                            <li @click="selectDifficulty('')"
+                                                class="px-2.5 py-1.5 text-xs rounded-md cursor-pointer transition-colors"
+                                                :class="!selectedDifficulty ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
+                                                Any
+                                            </li>
+                                            <li v-for="diff in difficulties" :key="diff.id" @click="selectDifficulty(diff.id)"
+                                                class="px-2.5 py-1.5 text-xs rounded-md cursor-pointer transition-colors flex items-center gap-1.5"
+                                                :class="selectedDifficulty === diff.id ? 'bg-orange-50 dark:bg-orange-950/40 text-orange-700 dark:text-orange-300 font-semibold' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5'">
+                                                <span class="h-1.5 w-1.5 rounded-full"
+                                                    :class="{ 'bg-green-500': diff.id === 'easy', 'bg-orange-500': diff.id === 'medium', 'bg-red-500': diff.id === 'hard' }"></span>
+                                                {{ diff.label }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </transition>
+                            </div>
+
+                            <!-- Max Time -->
+                            <div class="relative flex items-center flex-shrink-0">
+                                <div class="absolute left-2 pointer-events-none">
+                                    <svg class="h-3 w-3 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </div>
+                                <input v-model="maxTime" type="number" min="1" placeholder="Min"
+                                    class="w-[72px] pl-6 pr-1.5 py-1 text-xs bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-orange-500/30 focus:border-orange-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 font-semibold" />
+                            </div>
+
+                            <!-- Clear -->
+                            <transition enter-active-class="transition ease-out duration-150" enter-from-class="opacity-0 scale-90" enter-to-class="opacity-100 scale-100"
+                                leave-active-class="transition ease-in duration-100" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-90">
                                 <button v-if="hasActiveFilters" @click="clearFilters" type="button"
-                                    class="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-950/50 transition-colors">
+                                    class="flex-shrink-0 inline-flex items-center gap-0.5 rounded-lg px-2 py-1 text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-950/50 transition-colors whitespace-nowrap">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                     </svg>
@@ -352,5 +345,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
     -moz-appearance: textfield;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
 }
 </style>
